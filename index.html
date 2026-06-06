@@ -2412,6 +2412,129 @@ body { padding-top: 0; }
   .nav-dropdown { display: none; }
   .nav-item > a { padding: 0.5rem 0; }
 }
+
+/* ============================================================
+   MOBILE FIXES — Inner pages, ACHS, Learn streams, Publications
+   Addresses all inline grids that lack mobile overrides
+   ============================================================ */
+
+@media (max-width: 768px) {
+
+  /* --- Inner page heroes: reduce padding, full-width text box --- */
+  #page-learn section:first-child .container div[style*="max-width:560px"],
+  #page-events section:first-child .container div[style*="max-width:560px"],
+  #page-serve section:first-child .container div[style*="max-width:600px"],
+  #page-worship section:first-child .container div[style*="max-width:600px"],
+  #page-get-involved section:first-child .container div[style*="max-width:480px"] {
+    max-width: 100% !important;
+    padding: 1.5rem 1.25rem !important;
+  }
+
+  /* --- ACHS hero banner: shorter on mobile --- */
+  #achs > div:first-child {
+    height: 320px !important;
+  }
+
+  /* --- ACHS "next fifty years" + Curriculum: stack vertically --- */
+  #achs .container > div[style*="grid-template-columns:0.9fr"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important;
+  }
+
+  /* --- ACHS Three Stages: horizontal scroll on mobile --- */
+  #achs div[style*="grid-template-columns:repeat(3"] {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    gap: 1rem !important;
+    padding-bottom: 1rem !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  #achs div[style*="grid-template-columns:repeat(3"] > div {
+    min-width: 280px !important;
+    flex-shrink: 0 !important;
+    scroll-snap-align: start !important;
+  }
+
+  /* --- ACHS "Endow a chair" CTA: stack --- */
+  #achs div[style*="grid-template-columns:1fr 1fr"][style*="gap:3rem"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+    padding: 1.5rem !important;
+  }
+
+  /* --- Learn: Five stream cards — stack to single column --- */
+  #hinduism-life-living,
+  #hinduism-alive,
+  #vedic-yoga,
+  #pustaka,
+  #culture {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    padding: 1.25rem !important;
+  }
+  /* Stream card images: full-width row on mobile */
+  #hinduism-life-living > div:first-child,
+  #hinduism-alive > div:first-child,
+  #vedic-yoga > div:first-child,
+  #pustaka > div:first-child,
+  #culture > div:first-child {
+    display: flex !important;
+    gap: 1rem !important;
+    align-items: center !important;
+  }
+  #hinduism-life-living > div:first-child img,
+  #hinduism-alive > div:first-child img,
+  #vedic-yoga > div:first-child img,
+  #pustaka > div:first-child img,
+  #culture > div:first-child img {
+    width: 80px !important;
+    height: 80px !important;
+  }
+  /* "View classes" link: full-width at bottom */
+  #hinduism-life-living > a,
+  #hinduism-alive > a,
+  #vedic-yoga > a,
+  #pustaka > a,
+  #culture > a {
+    justify-self: start !important;
+  }
+
+  /* --- Learn: Stats strip — 2x2 grid on mobile --- */
+  #page-learn div[style*="grid-template-columns:repeat(4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.25rem !important;
+    padding: 1.5rem !important;
+  }
+
+  /* --- Patrika + Omkara: stack vertically --- */
+  #patrika > .container > div[style*="grid-template-columns:1fr 1fr"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2rem !important;
+  }
+
+  /* --- Omkara inner: stack cover + text vertically --- */
+  #omkara > div[style*="grid-template-columns:160px"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.25rem !important;
+  }
+  #omkara > div[style*="grid-template-columns:160px"] > div:first-child {
+    max-width: 140px !important;
+  }
+
+  /* --- Position Papers: single column --- */
+  #position-papers div[style*="grid-template-columns:repeat(2"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* --- General: container padding tighter on mobile --- */
+  .container { padding: 0 1.25rem; }
+  .container-narrow { padding: 0 1.25rem; }
+}
 </style>
 </head>
 <body>
@@ -3413,7 +3536,7 @@ body { padding-top: 0; }
       <div style="flex:1;"></div>
       <div class="container" style="padding-bottom:4rem;">
         <div style="background:rgba(255,248,240,0.96); padding:2rem 2.5rem; max-width:560px; border-top:3px solid var(--lamp-gold);">
-          <div class="section-label">Jnana</div>
+          <div class="section-label">The First Path &mdash; Jnana</div>
           <h1 style="font-family:var(--font-display); font-weight:300; font-size:clamp(2.5rem, 5vw, 4rem); line-height:1.1; color:var(--text-primary); margin:0.5rem 0 1rem;">Learn</h1>
           <p style="font-family:var(--font-body); font-weight:300; font-size:1rem; color:var(--text-secondary); line-height:1.7;">From a four-year-old hearing her first story from the Ramayana to a retiree studying Sanskrit &mdash; there is always more to understand.</p>
         </div>
@@ -3645,34 +3768,30 @@ body { padding-top: 0; }
      ============================================================ -->
 <div class="page" id="page-worship">
 
-  <!-- Unified Worship hero — one image, maroon mask dissolving downward, content panel sitting inside the same frame -->
-  <section style="position:relative; min-height:90vh; overflow:hidden; background:var(--temple-charcoal);">
-    <!-- One continuous photograph -->
-    <img src="Worship Section_Hero.png" alt="Bhajan session at Hindu Centre — devotees in a semicircle around a lit brass oil lamp, harmonium player mid-recitation, warm tungsten evening light, marigold garlands on the back wall" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 35%; z-index:1;">
-
-    <div style="position:relative; z-index:2; display:flex; flex-direction:column; min-height:90vh;">
-
-      <!-- TOP: Hero text with text-shadow for legibility against raw image -->
-      <div class="container" style="padding-top:8rem; padding-bottom:3rem;">
-        <div style="max-width:680px;">
-          <div class="section-label section-label-light" style="text-shadow:0 1px 12px rgba(0,0,0,0.7);">Bhakti</div>
-          <h1 style="color:var(--sandstone); font-family:var(--font-display); font-weight:300; font-size:clamp(3rem, 6vw, 5rem); line-height:1.02; margin:0.5rem 0 1.25rem; text-shadow:0 2px 24px rgba(0,0,0,0.65);">Worship</h1>
-          <p style="color:rgba(255,240,224,0.95); font-size:1.1rem; line-height:1.7; max-width:560px; text-shadow:0 1px 16px rgba(0,0,0,0.6);">Devotion is not performance. It is the quiet turning of the heart toward something larger than itself. At Hindu Centre, we create space for that turning.</p>
+  <!-- Worship hero — matching Learn/Serve pattern: full-bleed image, card anchored bottom-left -->
+  <section style="position:relative; min-height:75vh; overflow:hidden; background:var(--temple-charcoal);">
+    <img src="Worship Section_Hero.png" alt="Bhajan session at Hindu Centre — devotees in a semicircle around a lit brass oil lamp, harmonium player mid-recitation, warm tungsten evening light, marigold garlands on the back wall" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 35%; z-index:0;">
+    <div style="position:relative; z-index:1; display:flex; flex-direction:column; min-height:75vh; padding-top:6rem;">
+      <div style="flex:1;"></div>
+      <div class="container" style="padding-bottom:4rem;">
+        <div style="background:rgba(91,26,26,0.92); padding:2rem 2.5rem; max-width:600px; border-top:3px solid var(--lamp-gold);">
+          <div class="section-label section-label-light">The Second Path &mdash; Bhakti</div>
+          <h1 style="font-family:var(--font-display); font-weight:300; font-size:clamp(2.5rem, 5vw, 4rem); line-height:1.1; color:var(--sandstone); margin:0.5rem 0 1rem;">Worship</h1>
+          <p style="font-family:var(--font-body); font-weight:300; font-size:1rem; color:rgba(255,240,224,0.75); line-height:1.7;">Devotion is not performance. It is the quiet turning of the heart toward something larger than itself. At Hindu Centre, we create space for that turning.</p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- SPACER: the photograph breathes through here -->
-      <div style="flex:1; min-height:180px;"></div>
-
-      <!-- BOTTOM: Bhajan & Satsang content panel -->
-      <div class="container" style="padding-bottom:6rem;">
-        <div style="background:rgba(91,26,26,0.78); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); border-left:4px solid var(--lamp-gold); color:var(--sandstone); padding:2.5rem 2.75rem; max-width:680px; box-shadow:0 18px 50px rgba(0,0,0,0.3);">
-          <div style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.18em; color:var(--lamp-gold); text-transform:uppercase; margin-bottom:0.85rem;">Monthly Gathering</div>
-          <h3 style="font-family:var(--font-display); font-weight:400; font-size:1.7rem; color:var(--sandstone); margin-bottom:1rem;">Bhajan &amp; Satsang</h3>
-          <p style="color:rgba(255,240,224,0.85); font-size:0.95rem; line-height:1.75; margin-bottom:0.9rem;">The room fills slowly. Someone lights the lamp. The harmonium begins, and for two hours, nothing else exists &mdash; not the workweek, not the MRT commute, not the argument you had this morning. Just voices, together, reaching for something they can't quite name.</p>
-          <p style="color:rgba(255,240,224,0.78); font-size:0.92rem; line-height:1.75; margin-bottom:1.25rem;">Second Saturday of each month, 7:00pm &ndash; 9:00pm. No registration. Just come.</p>
-          <a href="#" data-page="events" style="font-family:var(--font-body); font-weight:500; font-size:0.85rem; color:var(--lamp-gold); text-decoration:none; letter-spacing:0.04em;">View Upcoming Sessions &rarr;</a>
-        </div>
+  <!-- Bhajan & Satsang — standalone section below the hero -->
+  <section style="padding:5rem 0; background:var(--bg-primary);">
+    <div class="container">
+      <div class="fade-in" style="max-width:680px;">
+        <div class="section-label">Monthly Gathering</div>
+        <h3>Bhajan &amp; Satsang</h3>
+        <p>The room fills slowly. Someone lights the lamp. The harmonium begins, and for two hours, nothing else exists &mdash; not the workweek, not the MRT commute, not the argument you had this morning. Just voices, together, reaching for something they can't quite name.</p>
+        <p style="color:var(--text-secondary); margin-bottom:1.25rem;">Second Saturday of each month, 7:00pm &ndash; 9:00pm. No registration. Just come.</p>
+        <a href="#" data-page="events" class="btn btn-outline-dark">View Upcoming Sessions &rarr;</a>
       </div>
     </div>
   </section>
