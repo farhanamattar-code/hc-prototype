@@ -2420,6 +2420,11 @@ body { padding-top: 0; }
 
 @media (max-width: 768px) {
 
+  /* --- Seva programme sections: tighten vertical padding --- */
+  .seva-programme {
+    padding: 2.5rem 0 !important;
+  }
+
   /* --- Inner page heroes: reduce padding, full-width text box --- */
   #page-learn section:first-child .container div[style*="max-width:560px"],
   #page-events section:first-child .container div[style*="max-width:560px"],
@@ -2442,19 +2447,10 @@ body { padding-top: 0; }
     gap: 2rem !important;
   }
 
-  /* --- ACHS Three Stages: horizontal scroll on mobile --- */
+  /* --- ACHS Three Stages: stack vertically on mobile --- */
   #achs div[style*="grid-template-columns:repeat(3"] {
-    display: flex !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory !important;
-    gap: 1rem !important;
-    padding-bottom: 1rem !important;
-    -webkit-overflow-scrolling: touch;
-  }
-  #achs div[style*="grid-template-columns:repeat(3"] > div {
-    min-width: 280px !important;
-    flex-shrink: 0 !important;
-    scroll-snap-align: start !important;
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
   }
 
   /* --- ACHS "Endow a chair" CTA: stack --- */
@@ -2509,6 +2505,18 @@ body { padding-top: 0; }
     padding: 1.5rem !important;
   }
 
+  /* --- Road to Fifty: 3 cards stack vertically on mobile --- */
+  section[style*="background:#5B1A1A"] div[style*="grid-template-columns:repeat(3"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  /* --- Road to Fifty: impact strip — 2x2 on mobile --- */
+  section[style*="background:#5B1A1A"] div[style*="grid-template-columns:repeat(4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.25rem !important;
+  }
+
   /* --- Patrika + Omkara: stack vertically --- */
   #patrika > .container > div[style*="grid-template-columns:1fr 1fr"] {
     display: flex !important;
@@ -2527,8 +2535,50 @@ body { padding-top: 0; }
   }
 
   /* --- Position Papers: single column --- */
+  #position-papers {
+    padding: 3rem 0 !important;
+  }
+  #position-papers div[style*="grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  #position-papers div[style*="grid-template-columns:1fr 1fr"] div[style*="max-width:560px"] {
+    max-width: 100% !important;
+  }
   #position-papers div[style*="grid-template-columns:repeat(2"] {
     grid-template-columns: 1fr !important;
+  }
+
+  /* --- Community + Book Sales strip: stack cards --- */
+  #page-get-involved section[style*="background:var(--bg-secondary)"] div[style*="grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
+  /* --- Yuvashakti section: mobile layout --- */
+  #yuvashakti {
+    padding-bottom: 3rem !important;
+  }
+  /* Hero image band: shorter on mobile, reposition to faces */
+  #yuvashakti > div[style*="height:480px"] {
+    height: 280px !important;
+  }
+  #yuvashakti > div[style*="height:480px"] img {
+    object-position: center 20% !important;
+  }
+  /* Spacer below hero */
+  #yuvashakti > div[style*="height:5rem"] {
+    height: 2rem !important;
+  }
+  /* Intro grid: stack heading + "Who is it for" box */
+  #yuvashakti div[style*="grid-template-columns:1.05fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  /* Three tracks: single column */
+  #yuvashakti div[style*="grid-template-columns:repeat(3"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
   }
 
   /* --- General: container padding tighter on mobile --- */
@@ -5722,8 +5772,8 @@ body { padding-top: 0; }
     <div class="container">
       <div class="fade-in" style="text-align:center; margin-bottom:2.5rem; max-width:680px; margin-left:auto; margin-right:auto;">
         <div class="section-label">More Ways to Belong</div>
-        <h2 class="section-title" style="margin:0.5rem auto;">Show up, stock up, stay close.</h2>
-        <p class="section-subtitle" style="margin:0.75rem auto 0;">Not every contribution is hours on a roster. Buy a book from our stall at the next mela. Come to the annual appreciation evening. The community is built in many small ways.</p>
+        <h2 class="section-title" style="margin:0.5rem auto;">Every offering doesn&rsquo;t need an altar.</h2>
+        <p class="section-subtitle" style="margin:0.75rem auto 0;">Not every contribution is hours on a roster. Buy a book from our stall at the next mela. Come to the appreciation evening. Community is built in many small ways.</p>
       </div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
         <div style="background:#fff; border-radius:6px; overflow:hidden; box-shadow:0 2px 14px rgba(91,26,26,0.06);">
