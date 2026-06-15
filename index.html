@@ -303,24 +303,14 @@ body {
   cursor: pointer;
 }
 .nav-logo-mark {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.3s;
+  overflow: visible;
 }
-.site-header:not(.scrolled) .nav-logo-mark {
-  background: rgba(255,240,224,0.15);
-  border: 1px solid rgba(255,240,224,0.2);
-}
-.site-header.scrolled .nav-logo-mark {
-  background: var(--laterite);
-}
-.nav-logo-mark svg { width: 18px; height: 18px; }
-.site-header:not(.scrolled) .nav-logo-mark svg path { fill: var(--sandstone); }
-.site-header.scrolled .nav-logo-mark svg path { fill: #fff; }
+.nav-logo-mark img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
 .nav-logo-text {
   font-family: var(--font-display);
@@ -1141,16 +1131,16 @@ body {
 }
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.5fr;
-  gap: 3rem;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+  gap: 2.5rem;
   margin-bottom: 4rem;
 }
 .footer-brand .nav-logo-mark {
-  background: rgba(255,240,224,0.1);
-  border: 1px solid rgba(255,240,224,0.15);
+  background: transparent;
+  border: none;
   margin-bottom: 1rem;
 }
-.footer-brand .nav-logo-mark svg path { fill: var(--sandstone); }
+.footer-brand .nav-logo-mark img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .footer-brand-name {
   font-family: var(--font-display);
   font-weight: 400;
@@ -2596,10 +2586,9 @@ body { padding-top: 0; }
   <div class="utility-bar-inner">
     <span class="utility-tagline">Jnana &middot; Bhakti &middot; Sevaa &middot; Since 1978</span>
     <ul class="utility-links">
-      <li><a href="#" data-page="events">Patrika</a></li>
-      <li><a href="#">Shop &amp; Books</a></li>
-      <li><a href="#">Member Login</a></li>
-      <li><a href="#">Search</a></li>
+      <li><a href="#" data-page="resources" data-anchor="res-patrika">Patrika</a></li>
+      <li><a href="#" data-page="resources" data-anchor="res-books">Shop &amp; Books</a></li>
+      <li><a href="#" aria-label="Search" title="Search" style="display:inline-flex; align-items:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></a></li>
     </ul>
   </div>
 </div>
@@ -2611,9 +2600,7 @@ body { padding-top: 0; }
   <div class="nav-inner">
     <a href="#" data-page="home" class="nav-logo">
       <div class="nav-logo-mark">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C12 2 8 6 8 10C8 12 9.5 14 12 14C14.5 14 16 12 16 10C16 6 12 2 12 2ZM12 14C12 14 10 16 10 18C10 19.5 10.9 21 12 22C13.1 21 14 19.5 14 18C14 16 12 14 12 14Z"/>
-        </svg>
+        <img src="HC%20Logo%20round%20only.png" alt="Hindu Centre mandala emblem">
       </div>
       <span class="nav-logo-text">Hindu Centre</span>
     </a>
@@ -2675,11 +2662,20 @@ body { padding-top: 0; }
         <a href="#" data-page="events">Events &amp; News</a>
         <div class="nav-dropdown">
           <a href="#" data-page="events" class="nav-dropdown-header">Events &amp; News <span class="nav-dropdown-header-cta">All updates &rarr;</span></a>
+          <a href="#" data-page="events" data-anchor="cal-section">Upcoming Events &amp; Calendar</a>
           <a href="#" data-page="deepavali">Deepavali Singapore <span class="nav-sub-meta">Festival of Lights</span></a>
-          <a href="#" data-page="events">Upcoming Events</a>
-          <a href="#" data-page="events" data-anchor="patrika">Patrika Newsletter</a>
-          <a href="#" data-page="events" data-anchor="omkara">Omkara Publication</a>
-          <a href="#" data-page="events" data-anchor="position-papers">Position Papers</a>
+          <a href="#" data-page="events">Latest News</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="#" data-page="resources">Resources</a>
+        <div class="nav-dropdown">
+          <a href="#" data-page="resources" class="nav-dropdown-header">Resources <span class="nav-dropdown-header-cta">Library &amp; downloads &rarr;</span></a>
+          <a href="#" data-page="resources" data-anchor="res-position-papers">Position Papers <span class="nav-sub-meta">Hindu perspectives</span></a>
+          <a href="#" data-page="resources" data-anchor="res-omkara">Omkara Magazine</a>
+          <a href="#" data-page="resources" data-anchor="res-patrika">Patrika Newsletter</a>
+          <a href="#" data-page="resources" data-anchor="res-articles">Articles &amp; Guides</a>
+          <a href="#" data-page="resources" data-anchor="res-books">Books &amp; Shop</a>
         </div>
       </li>
       <li class="nav-item">
@@ -2687,7 +2683,8 @@ body { padding-top: 0; }
         <div class="nav-dropdown">
           <a href="#" data-page="get-involved" class="nav-dropdown-header">Take Action <span class="nav-dropdown-header-cta">All ways to help &rarr;</span></a>
           <a href="#" data-page="get-involved">Volunteer</a>
-          <a href="#" data-page="get-involved">Become a Member</a>
+          <a href="#" onclick="navAndSignup('signup-membership'); return false;">Become a Member <span class="nav-sub-meta">Join the Centre</span></a>
+          <a href="#" onclick="navAndSignup('signup-facility'); return false;">Book a Facility <span class="nav-sub-meta">Hall &amp; rooms</span></a>
           <a href="#" data-page="get-involved" data-anchor="yuvashakti">Join Yuvashakti <span class="nav-sub-meta">Youth wing &middot; ages 18&ndash;35</span></a>
           <a href="#" data-page="get-involved">Donate to the Jubilee <span class="nav-sub-meta">Road to 50</span></a>
         </div>
@@ -2709,7 +2706,7 @@ body { padding-top: 0; }
 
       <!-- Slide 1: Three Paths (Brand-level) — full-bleed photo, left-anchored panel -->
       <div class="carousel-slide active" data-slide="0">
-        <div class="slide-bg slide-bg-threepaths"><img src="Hero_homepage.png" alt="Hindu Centre Singapore community — homepage hero" class="hero-bg-img"></div>
+        <div class="slide-bg slide-bg-threepaths"><img src="Hindu%20Centre_Hero_Homepage.png" alt="Hindu Centre Singapore community — homepage hero" class="hero-bg-img"></div>
         <div class="hero-panel">
           <span class="hero-panel-label">From 1978 &rarr; 2028</span>
           <h1 class="hero-panel-headline">Three Paths.<br>One Purpose.</h1>
@@ -2725,8 +2722,8 @@ body { padding-top: 0; }
       <!-- Slide 2: Jnana -->
       <div class="carousel-slide" data-slide="1">
         <div class="slide-bg slide-bg-jnana" style="background:none;">
-          <img src="hero-family.png" alt="Jnana — multi-generational Hindu family learning together" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 40%; z-index:0;">
-          <div style="position:absolute; inset:0; background:linear-gradient(to right, rgba(42,10,10,0.88) 0%, rgba(61,16,16,0.72) 38%, rgba(91,26,26,0.30) 62%, rgba(42,10,10,0.55) 100%); z-index:1;"></div>
+          <img src="Hindu%20Centre_hero_Jnana.png" alt="Jnana — multi-generational Hindu family learning together" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 40%; z-index:0;">
+          <div style="position:absolute; inset:0; background:linear-gradient(to right, rgba(42,10,10,0.68) 0%, rgba(61,16,16,0.50) 38%, rgba(91,26,26,0.18) 62%, rgba(42,10,10,0.38) 100%); z-index:1;"></div>
           <svg viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="position:relative; z-index:2;">
             <defs>
               <radialGradient id="jnanaGlow" cx="50%" cy="50%" r="60%">
@@ -2796,8 +2793,8 @@ body { padding-top: 0; }
       <!-- Slide 3: Bhakti -->
       <div class="carousel-slide" data-slide="2">
         <div class="slide-bg slide-bg-bhakti" style="background:none;">
-          <img src="Hero_Bhakti.png" alt="Bhakti — Hindu Centre worship and devotion" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 35%; z-index:0;">
-          <div style="position:absolute; inset:0; background:linear-gradient(to right, rgba(61,16,16,0.88) 0%, rgba(91,26,26,0.70) 38%, rgba(232,101,26,0.20) 62%, rgba(42,10,10,0.55) 100%); z-index:1;"></div>
+          <img src="Hindu_Centre_Hero_Bhakti.png" alt="Bhakti — Hindu Centre worship and devotion" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 35%; z-index:0;">
+          <div style="position:absolute; inset:0; background:linear-gradient(to right, rgba(61,16,16,0.68) 0%, rgba(91,26,26,0.48) 38%, rgba(232,101,26,0.12) 62%, rgba(42,10,10,0.38) 100%); z-index:1;"></div>
           <svg viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="position:absolute; inset:0; z-index:2; width:100%; height:100%;">
             <defs>
               <radialGradient id="bhaktiGlow" cx="50%" cy="55%" r="50%">
@@ -3037,8 +3034,8 @@ body { padding-top: 0; }
       <!-- Slide 4: Sevaa -->
       <div class="carousel-slide" data-slide="3">
         <div class="slide-bg slide-bg-sevaa" style="background:none;">
-          <img src="Hero_Sevaa.png" alt="Sevaa — Hindu Centre community service" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 35%; z-index:0;">
-          <div style="position:absolute; inset:0; background:linear-gradient(160deg, rgba(232,101,26,0.6) 0%, rgba(91,26,26,0.65) 50%, rgba(42,10,10,0.8) 100%); z-index:1;"></div>
+          <img src="Hindu%20Centre_hero_Sevaa.png" alt="Sevaa — Hindu Centre community service" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 35%; z-index:0;">
+          <div style="position:absolute; inset:0; background:linear-gradient(160deg, rgba(232,101,26,0.40) 0%, rgba(91,26,26,0.45) 50%, rgba(42,10,10,0.58) 100%); z-index:1;"></div>
           <svg viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="position:relative; z-index:2;">
             <!-- Very faint glow — barely perceptible, text always dominates -->
             <radialGradient id="sevaaGlow" cx="50%" cy="75%" r="45%">
@@ -3863,7 +3860,7 @@ body { padding-top: 0; }
           </div>
         </div>
         <div class="event-card" style="padding:0; overflow:hidden;">
-          <img src="Prompt_15.png" alt="Navaratri — a row of women dancers in Kerala kasavu sarees performing Bharatanatyam, brass oil lamp at the centre of their formation, audience seated in soft focus" style="width:100%; height:220px; object-fit:cover; object-position:center 25%;">
+          <img src="Hindu%20Centre_Prompt%2015.png" alt="Navaratri — a row of women dancers in Kerala kasavu sarees performing Bharatanatyam, brass oil lamp at the centre of their formation, audience seated in soft focus" style="width:100%; height:220px; object-fit:cover; object-position:center 25%;">
           <div style="padding:1.5rem 2rem 2rem;">
             <div class="event-date">Sep / Oct</div>
             <h3>Navaratri</h3>
@@ -4127,10 +4124,12 @@ body { padding-top: 0; }
   <section class="story-content">
     <div class="container-narrow fade-in">
       <div class="story-narrative">
+        <p style="font-family:var(--font-display); font-weight:300; font-size:clamp(1.2rem, 2vw, 1.5rem); line-height:1.5; color:var(--temple-charcoal); margin-bottom:1.75rem;">A question no one else was asking in 1978 &mdash; <em>why can't our children explain their own faith?</em> &mdash; grew into three paths, four areas of service, and forty-eight years of a living institution.</p>
         <p>It began with an uncomfortable admission. In 1978, a group of Hindu professionals &mdash; lawyers, engineers, teachers &mdash; gathered in a living room in Singapore and faced a truth they'd been avoiding: their own children could not explain Hinduism. Not because the tradition lacked substance, but because somewhere between temple rituals and school exams, the thread of understanding had frayed.</p>
         <p>They could have shrugged. Hindu parents across the diaspora did, and still do. But this group chose to do something about it. They started small: a Sunday school with borrowed chairs, a curriculum written on weekends, teachers who volunteered their time because they believed children deserved to understand the tradition they were born into.</p>
         <p>From that Sunday school grew something none of them had planned. Parents who came to drop off their children stayed to learn. Learners who found depth wanted to worship together. Worshippers who felt the pull of devotion discovered they needed to serve. Three paths &mdash; Jnana, Bhakti, Sevaa &mdash; emerging naturally from one community's refusal to let their tradition fade.</p>
-        <p>Forty-eight years later, Hindu Centre teaches hundreds of children and adults every week through 50+ classes and five learning streams. It holds ten major Bhakti gatherings a year. It runs four seva programmes &mdash; Mitra (inmate counselling), Bandhu (elder befriending), Chakra (youth on probation), Mantranam (marriage counselling) &mdash; because the tradition these founders preserved turned out to have something urgent to say about how we treat one another. The original question hasn't gone away. It's just gotten more important. In 2028 we turn fifty, and the Asian Centre for Hindu Studies opens the next chapter.</p>
+        <p>Forty-eight years later, that refusal has scale. Every week, hundreds of children and adults learn here across 50+ classes and five streams. Ten major Bhakti gatherings fill the year. And four Sevaa programmes carry the tradition beyond our walls &mdash; into prisons, eldercare, youth mentorship, and marriage counselling.</p>
+        <p>The original question hasn't gone away. It has only grown more important. In 2028 we turn fifty &mdash; and the Asian Centre for Hindu Studies opens the next chapter.</p>
       </div>
     </div>
   </section>
@@ -4208,6 +4207,18 @@ body { padding-top: 0; }
     </div>
 
     <div class="container fade-in" style="padding-top:5rem; padding-bottom:6rem;">
+      <!-- At a Glance -->
+      <div style="background:#fff; border:1px solid var(--border-light); border-left:4px solid var(--lamp-gold); border-radius:0 6px 6px 0; padding:1.5rem 1.75rem; margin-bottom:3.5rem; box-shadow:0 2px 18px rgba(91,26,26,0.05);">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:0.9rem;">
+          <span style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--laterite);">At a Glance</span>
+          <span style="font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; color:var(--text-tertiary);">Opens 10 May 2028</span>
+        </div>
+        <ul style="list-style:none; margin:0; padding:0; display:grid; gap:0.6rem;">
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>A Vedic college and premier learning organisation for Sanatana Dharma in Singapore and Southeast Asia.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Currently filed with ACRA; opens on Hindu Centre&rsquo;s Golden Jubilee, 10 May 2028.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Being built one named gift at a time &mdash; founding patrons recognised in perpetuity.</li>
+        </ul>
+      </div>
       <div style="display:grid; grid-template-columns:0.9fr 1.1fr; gap:4rem; align-items:center; margin-bottom:3.5rem;">
         <div>
           <div style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.18em; color:var(--laterite); text-transform:uppercase; margin-bottom:1rem;">A Vedic College</div>
@@ -4401,7 +4412,7 @@ body { padding-top: 0; }
 <div class="page" id="page-events">
 
   <section style="position:relative; min-height:75vh; overflow:hidden; background:var(--temple-charcoal);">
-    <img src="Prompt_05.png" alt="Events — Community hall during a festival evening: rows of people facing a stage, brass oil lamp in the foreground, marigold garlands, multi-generational Singaporean audience" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 25%; z-index:0;">
+    <img src="Hindu%20Centre_Prompt%2005.png" alt="Events — Community hall during a festival evening: rows of people facing a stage, brass oil lamp in the foreground, marigold garlands, multi-generational Singaporean audience" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 25%; z-index:0;">
     <div style="position:relative; z-index:1; display:flex; flex-direction:column; min-height:75vh; padding-top:6rem;">
       <div style="flex:1;"></div>
       <div class="container" style="padding-bottom:4rem;">
@@ -4414,7 +4425,7 @@ body { padding-top: 0; }
     </div>
   </section>
 
-  <section class="calendar-section">
+  <section class="calendar-section" id="cal-section">
     <div class="container">
       <div class="fade-in">
         <div class="section-label">June 2026</div>
@@ -4544,6 +4555,29 @@ body { padding-top: 0; }
     </div>
   </section>
 
+</div><!-- /page-events -->
+
+<!-- ============================================================
+     PAGE: RESOURCES  (Library, publications, downloads)
+     ============================================================ -->
+<div class="page" id="page-resources">
+
+  <section style="background:var(--temple-charcoal); padding:7rem 0 4rem;">
+    <div class="container">
+      <div class="section-label section-label-light">Resources</div>
+      <h1 style="font-family:var(--font-display); font-weight:300; font-size:clamp(2.5rem,5vw,4rem); line-height:1.1; color:var(--sandstone); margin:0.5rem 0 1rem; max-width:760px;">A library for the curious and the committed.</h1>
+      <p style="font-family:var(--font-body); font-weight:300; font-size:1.05rem; color:rgba(255,240,224,0.75); line-height:1.7; max-width:620px;">Position papers, our magazine, the monthly newsletter, reading guides, and books &mdash; free to read, free to download. Wherever you are on the path, start here.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:1.5rem; margin-top:2rem; font-family:var(--font-mono); font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase;">
+        <a href="#" data-page="resources" data-anchor="res-position-papers" style="color:var(--lamp-gold); text-decoration:none;">Position Papers</a>
+        <a href="#" data-page="resources" data-anchor="res-omkara" style="color:var(--lamp-gold); text-decoration:none;">Omkara Magazine</a>
+        <a href="#" data-page="resources" data-anchor="res-patrika" style="color:var(--lamp-gold); text-decoration:none;">Patrika</a>
+        <a href="#" data-page="resources" data-anchor="res-articles" style="color:var(--lamp-gold); text-decoration:none;">Articles &amp; Guides</a>
+        <a href="#" data-page="resources" data-anchor="res-books" style="color:var(--lamp-gold); text-decoration:none;">Books &amp; Shop</a>
+      </div>
+    </div>
+  </section>
+
+  <span id="res-patrika"></span><span id="res-omkara"></span>
   <!-- PATRIKA + OMKARA — Publications hub -->
   <section id="patrika" style="padding:6rem 0; background:var(--bg-secondary);">
     <div class="container">
@@ -4607,6 +4641,7 @@ body { padding-top: 0; }
     </div>
   </section>
 
+  <span id="res-position-papers"></span>
   <!-- POSITION PAPERS -->
   <section id="position-papers" style="padding:6rem 0; background:var(--bg-primary);">
     <div class="container">
@@ -4712,7 +4747,65 @@ body { padding-top: 0; }
     </div>
   </section>
 
-</div><!-- /page-events -->
+  <!-- ARTICLES & GUIDES -->
+  <section id="res-articles" style="padding:6rem 0; background:var(--bg-secondary);">
+    <div class="container">
+      <div class="fade-in" style="margin-bottom:2.5rem;">
+        <div class="section-label">Articles &amp; Guides</div>
+        <h2 class="section-title">Read a Little Deeper</h2>
+        <p class="section-subtitle">Short, practical reads on living Hindu in Singapore &mdash; festivals, practices, and the questions families actually ask. Free to read, easy to share.</p>
+      </div>
+      <div class="fade-in" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.5rem;">
+        <a href="#" onclick="showPage('deepavali'); return false;" style="background:#fff; border:1px solid var(--border-light); border-radius:6px; overflow:hidden; text-decoration:none; display:block; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+          <div style="padding:1.5rem;">
+            <div style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--laterite); text-transform:uppercase; margin-bottom:0.6rem;">Festival Guide</div>
+            <h4 style="font-family:var(--font-display); font-weight:500; font-size:1.1rem; color:var(--temple-charcoal); margin-bottom:0.4rem;">Deepavali in Singapore</h4>
+            <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.6;">The meaning behind the lamps, and how Hindu families mark the festival here.</p>
+          </div>
+        </a>
+        <a href="#" onclick="showPage('vedic-yoga'); return false;" style="background:#fff; border:1px solid var(--border-light); border-radius:6px; overflow:hidden; text-decoration:none; display:block; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+          <div style="padding:1.5rem;">
+            <div style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--tulsi); text-transform:uppercase; margin-bottom:0.6rem;">Practice Guide</div>
+            <h4 style="font-family:var(--font-display); font-weight:500; font-size:1.1rem; color:var(--temple-charcoal); margin-bottom:0.4rem;">Yoga, the Vedic Way</h4>
+            <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.6;">Reclaiming yoga as spiritual practice &mdash; what it is, and what it isn't.</p>
+          </div>
+        </a>
+        <a href="#" onclick="showPage('resources','res-position-papers'); return false;" style="background:#fff; border:1px solid var(--border-light); border-radius:6px; overflow:hidden; text-decoration:none; display:block; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+          <div style="padding:1.5rem;">
+            <div style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--text-tertiary); text-transform:uppercase; margin-bottom:0.6rem;">Reference</div>
+            <h4 style="font-family:var(--font-display); font-weight:500; font-size:1.1rem; color:var(--temple-charcoal); margin-bottom:0.4rem;">Position Papers Library</h4>
+            <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.6;">Researched answers to the questions Hindu families face. Browse the full set.</p>
+          </div>
+        </a>
+      </div>
+      <p style="font-size:0.82rem; color:var(--text-tertiary); margin-top:1.5rem;">More guides are added regularly. Have a topic you'd like us to cover? <a href="#" data-page="get-involved" style="color:var(--laterite); text-decoration:none;">Tell us &rarr;</a></p>
+    </div>
+  </section>
+
+  <!-- BOOKS & SHOP -->
+  <section id="res-books" style="padding:6rem 0; background:var(--bg-primary);">
+    <div class="container">
+      <div class="fade-in" style="display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;">
+        <div>
+          <div class="section-label">Books &amp; Shop</div>
+          <h2 class="section-title">Take Something Home.</h2>
+          <p class="section-subtitle" style="margin-bottom:1.5rem;">Hindu Centre keeps a small, carefully chosen collection &mdash; scripture and commentary, children's books, our own Omkara editions, and titles from our periodic book sales. Most are available at the Centre; selected titles can be reserved online.</p>
+          <ul style="list-style:none; padding:0; margin:0 0 1.75rem;">
+            <li style="padding:0.55rem 0; border-bottom:1px solid var(--border-light); display:flex; justify-content:space-between; font-size:0.9rem;"><span>Scripture &amp; commentary</span><span style="color:var(--text-tertiary);">At the Centre</span></li>
+            <li style="padding:0.55rem 0; border-bottom:1px solid var(--border-light); display:flex; justify-content:space-between; font-size:0.9rem;"><span>Children's &amp; family titles</span><span style="color:var(--text-tertiary);">At the Centre</span></li>
+            <li style="padding:0.55rem 0; border-bottom:1px solid var(--border-light); display:flex; justify-content:space-between; font-size:0.9rem;"><span>Omkara back issues</span><span style="color:var(--text-tertiary);">Reserve online</span></li>
+          </ul>
+          <a href="#" class="btn btn-primary" style="margin-right:1rem;">Reserve a Title &rarr;</a>
+          <a href="#" onclick="showPage('resources','res-omkara'); return false;" class="text-link">View Omkara editions &rarr;</a>
+        </div>
+        <div style="border-radius:6px; overflow:hidden; box-shadow:0 4px 24px rgba(91,26,26,0.1);">
+          <img src="image_68_upscaled.jpg" alt="A selection of Hindu Centre books and Omkara magazine editions" style="width:100%; height:320px; object-fit:cover; object-position:center;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-resources -->
 
 
 <!-- ============================================================
@@ -5054,6 +5147,18 @@ body { padding-top: 0; }
   <!-- B. Article body -->
   <section style="padding:4rem 0; background:var(--bg-primary);">
     <div class="container-narrow fade-in" style="max-width:900px; margin:0 auto; padding:0 1.5rem;">
+      <!-- Key Takeaways -->
+      <div style="background:var(--bg-secondary); border:1px solid var(--border-light); border-left:4px solid var(--lamp-gold); border-radius:0 6px 6px 0; padding:1.5rem 1.75rem; margin-bottom:2.5rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:0.9rem;">
+          <span style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--laterite);">Key Takeaways</span>
+          <span style="font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; color:var(--text-tertiary);">3 min read</span>
+        </div>
+        <ul style="list-style:none; margin:0; padding:0; display:grid; gap:0.6rem;">
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Hinduism fits neither &ldquo;monotheist&rdquo; nor &ldquo;polytheist&rdquo; &mdash; one infinite reality, Brahman, honoured through limitless forms.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>&ldquo;Truth is one; the wise call it by many names&rdquo; (Rig Veda 1.164.46) is the tradition&rsquo;s own answer.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>&ldquo;330 million gods&rdquo; is a mistranslation &mdash; <em>koti</em> means &ldquo;type,&rdquo; not crore; the Vedas name 33 principal devas.</li>
+        </ul>
+      </div>
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">It is the question every Hindu child has been asked at school, on the playground, and at the dinner table of a non-Hindu friend: <em>How many gods do you have?</em> The number 330 million is often quoted &mdash; sometimes with awe, sometimes with ridicule. But the question itself rests on a misunderstanding, and the real answer is far more interesting than a number.</p>
 
       <h2 style="font-family:var(--font-display); font-weight:400; font-size:1.6rem; color:var(--temple-charcoal); margin:2rem 0 1rem;">Is Hinduism Monotheistic or Polytheistic?</h2>
@@ -5122,6 +5227,18 @@ body { padding-top: 0; }
   <!-- B. Article body -->
   <section style="padding:4rem 0; background:var(--bg-primary);">
     <div class="container-narrow fade-in" style="max-width:900px; margin:0 auto; padding:0 1.5rem;">
+      <!-- Key Takeaways -->
+      <div style="background:var(--bg-secondary); border:1px solid var(--border-light); border-left:4px solid var(--lamp-gold); border-radius:0 6px 6px 0; padding:1.5rem 1.75rem; margin-bottom:2.5rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:0.9rem;">
+          <span style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--laterite);">Key Takeaways</span>
+          <span style="font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; color:var(--text-tertiary);">3 min read</span>
+        </div>
+        <ul style="list-style:none; margin:0; padding:0; display:grid; gap:0.6rem;">
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span><em>Namaste</em> (Sanskrit) and <em>Vanakkam</em> (Tamil) mean far more than &ldquo;hello&rdquo; &mdash; &ldquo;the sacred in me honours the sacred in you.&rdquo;</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>The greeting is inseparable from its gesture, <em>anjali mudra</em> &mdash; palms joined at the heart to signify unity.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Wellness culture has emptied the word of meaning; understanding its depth restores it.</li>
+        </ul>
+      </div>
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">You have probably heard it in a yoga class. Perhaps at the end, when the teacher bows and says "Namaste" and the room murmurs it back. In that context, it has become something like "thank you" or "amen" &mdash; a feel-good punctuation mark. But what is namaste, really? And what is lost when a greeting with five thousand years of philosophical weight is reduced to a studio sign-off?</p>
 
       <h2 style="font-family:var(--font-display); font-weight:400; font-size:1.6rem; color:var(--temple-charcoal); margin:2rem 0 1rem;">The Sanskrit and the Tamil</h2>
@@ -5191,6 +5308,18 @@ body { padding-top: 0; }
   <!-- B. Article body -->
   <section style="padding:4rem 0; background:var(--bg-primary);">
     <div class="container-narrow fade-in" style="max-width:900px; margin:0 auto; padding:0 1.5rem;">
+      <!-- Key Takeaways -->
+      <div style="background:var(--bg-secondary); border:1px solid var(--border-light); border-left:4px solid var(--lamp-gold); border-radius:0 6px 6px 0; padding:1.5rem 1.75rem; margin-bottom:2.5rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:0.9rem;">
+          <span style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--laterite);">Key Takeaways</span>
+          <span style="font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; color:var(--text-tertiary);">3 min read</span>
+        </div>
+        <ul style="list-style:none; margin:0; padding:0; display:grid; gap:0.6rem;">
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Disposing of sacred images isn&rsquo;t destruction but <em>visarjan</em> &mdash; a respectful return to the elements.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Honourable methods: immersion in flowing water, burning paper images with prayer, donating to a temple, or burial in cloth.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Never bin sacred items &mdash; not from fear of punishment, but because how we treat the sacred shapes us.</li>
+        </ul>
+      </div>
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">It is one of the most common questions Hindu families face, and one of the most emotionally charged: what do you do with a picture of a deity that is damaged? A vigraha (sacred image) that has cracked? Religious items inherited from a parent who has passed on, when you simply do not have the space to keep them all? The question carries guilt, love, and uncertainty in equal measure. This paper offers practical guidance grounded in dharmic principles.</p>
 
       <h2 style="font-family:var(--font-display); font-weight:400; font-size:1.6rem; color:var(--temple-charcoal); margin:2rem 0 1rem;">The Principle of Visarjan</h2>
@@ -5256,6 +5385,18 @@ body { padding-top: 0; }
   <!-- B. Article body -->
   <section style="padding:4rem 0; background:var(--bg-primary);">
     <div class="container-narrow fade-in" style="max-width:900px; margin:0 auto; padding:0 1.5rem;">
+      <!-- Key Takeaways -->
+      <div style="background:var(--bg-secondary); border:1px solid var(--border-light); border-left:4px solid var(--lamp-gold); border-radius:0 6px 6px 0; padding:1.5rem 1.75rem; margin-bottom:2.5rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:0.9rem;">
+          <span style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--laterite);">Key Takeaways</span>
+          <span style="font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; color:var(--text-tertiary);">2 min read</span>
+        </div>
+        <ul style="list-style:none; margin:0; padding:0; display:grid; gap:0.6rem;">
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>The temple bell signals <em>you</em>, not God &mdash; it marks the threshold from the everyday into the sacred.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>It echoes <em>Nada Brahma</em> &mdash; the belief that the universe itself is born of sound.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Bells are alloyed for a long, fading tone &mdash; the lingering silence is where attention settles.</li>
+        </ul>
+      </div>
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">Walk into any Hindu temple and you will see it: a brass bell hanging at the entrance, or near the sanctum. Devotees reach up, ring it firmly, and move on. Children love the sound. Tourists are curious. But why? The bell is one of the most recognisable elements of Hindu worship, and its purpose runs deeper than ritual habit.</p>
 
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">At its most practical, the bell is a signal. It announces your arrival &mdash; not to God, who needs no announcement, but to yourself. The sharp, clear tone cuts through the noise of your day and says: <em>you are here now. Pay attention.</em> Ringing the bell is the act of crossing a threshold from the everyday into the sacred. It is a sonic boundary marker, and Hindu tradition is rich with such markers &mdash; the kolam at the door, the removal of shoes, the lighting of the lamp.</p>
@@ -5319,6 +5460,18 @@ body { padding-top: 0; }
   <!-- B. Article body -->
   <section style="padding:4rem 0; background:var(--bg-primary);">
     <div class="container-narrow fade-in" style="max-width:900px; margin:0 auto; padding:0 1.5rem;">
+      <!-- Key Takeaways -->
+      <div style="background:var(--bg-secondary); border:1px solid var(--border-light); border-left:4px solid var(--lamp-gold); border-radius:0 6px 6px 0; padding:1.5rem 1.75rem; margin-bottom:2.5rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:0.9rem;">
+          <span style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--laterite);">Key Takeaways</span>
+          <span style="font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; color:var(--text-tertiary);">4 min read</span>
+        </div>
+        <ul style="list-style:none; margin:0; padding:0; display:grid; gap:0.6rem;">
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Hindu tradition does not condemn those who suffer &mdash; life is sacred, but despair is met with compassion, not judgment.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Mental health is a dharmic concern; seeking help is courage, and stigma is a cultural accretion, not a teaching.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>For the bereaved: the atman continues its journey; prayers and charity for the departed are encouraged. Support lines are at the foot of this page.</li>
+        </ul>
+      </div>
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">This paper addresses a deeply sensitive topic. It is written for Hindu families who have been touched by suicide &mdash; whether through loss, through fear, or through the quiet struggle of someone they love. It is written with care, and it begins with this: <strong>Hindu tradition does not condemn those who suffer.</strong></p>
 
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">The dharmic texts are clear that life &mdash; <em>jiva</em> &mdash; is sacred. The Bhagavad Gita teaches that the atman (soul) is eternal: "The soul is never born and never dies" (2.20). The body is a vehicle, and this particular human birth is precious because it offers the opportunity for spiritual growth, for karma to be worked through, for moksha to be approached. Ending one's own life is therefore understood as a disruption of that journey &mdash; not a sin in the Christian sense, but a departure from the natural unfolding of one's dharma.</p>
@@ -5390,6 +5543,18 @@ body { padding-top: 0; }
   <!-- B. Article body -->
   <section style="padding:4rem 0; background:var(--bg-primary);">
     <div class="container-narrow fade-in" style="max-width:900px; margin:0 auto; padding:0 1.5rem;">
+      <!-- Key Takeaways -->
+      <div style="background:var(--bg-secondary); border:1px solid var(--border-light); border-left:4px solid var(--lamp-gold); border-radius:0 6px 6px 0; padding:1.5rem 1.75rem; margin-bottom:2.5rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:0.9rem;">
+          <span style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--laterite);">Key Takeaways</span>
+          <span style="font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; color:var(--text-tertiary);">3 min read</span>
+        </div>
+        <ul style="list-style:none; margin:0; padding:0; display:grid; gap:0.6rem;">
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>There is no single &ldquo;Hindu position&rdquo; &mdash; Hinduism is a civilisational tradition of many texts and voices.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>The tradition holds gender and sexual diversity within it: Ardhanarishvara, <em>tritiya prakriti</em>, Shikhandi.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Hindu Centre&rsquo;s stance is welcome and dignity &mdash; every atman greeted with Namaste, without apology.</li>
+        </ul>
+      </div>
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">The relationship between Hinduism and homosexuality &mdash; and more broadly, between Hindu tradition and the full spectrum of gender and sexual identity &mdash; is often discussed as though there is a single Hindu position. There is not. Hinduism is not a creedal religion with a central authority that issues rulings. It is a civilisational tradition with many schools, many texts, and many voices. What follows is Hindu Centre's reading of the tradition, offered with humility and a commitment to dignity.</p>
 
       <h2 style="font-family:var(--font-display); font-weight:400; font-size:1.6rem; color:var(--temple-charcoal); margin:2rem 0 1rem;">What the Tradition Holds</h2>
@@ -5456,6 +5621,18 @@ body { padding-top: 0; }
   <!-- B. Article body -->
   <section style="padding:4rem 0; background:var(--bg-primary);">
     <div class="container-narrow fade-in" style="max-width:900px; margin:0 auto; padding:0 1.5rem;">
+      <!-- Key Takeaways -->
+      <div style="background:var(--bg-secondary); border:1px solid var(--border-light); border-left:4px solid var(--lamp-gold); border-radius:0 6px 6px 0; padding:1.5rem 1.75rem; margin-bottom:2.5rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:0.9rem;">
+          <span style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--laterite);">Key Takeaways</span>
+          <span style="font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; color:var(--text-tertiary);">3 min read</span>
+        </div>
+        <ul style="list-style:none; margin:0; padding:0; display:grid; gap:0.6rem;">
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Yoga is Hindu in origin &mdash; a statement of historical fact, not a claim of ownership.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Asana (posture) is just one of Patanjali&rsquo;s eight limbs; the true goal is <em>moksha</em>, not fitness.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Sharing yoga is welcome; erasing its roots and meaning is not.</li>
+        </ul>
+      </div>
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">Yoga is Hindu. That is not a claim of ownership &mdash; it is a statement of historical fact. Yoga emerged from the Vedic civilisation of the Indian subcontinent at least five thousand years ago, was codified by the sage Patanjali in the Yoga Sutras, and has been practised within Hindu, Buddhist, and Jain traditions for millennia. To say "yoga is Hindu" is no more controversial than saying "tea ceremony is Japanese" or "Gregorian chant is Christian." And yet, in the global wellness marketplace, the Hindu roots of yoga have been systematically erased.</p>
 
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">The modern yoga industry &mdash; valued at over $80 billion globally &mdash; has reduced a comprehensive spiritual discipline to a fitness routine. When most people think of yoga, they think of asana: the physical postures. But asana is only one of eight limbs (<em>ashtanga</em>) described by Patanjali. The full path includes <em>yama</em> (ethical restraints), <em>niyama</em> (personal disciplines), <em>pranayama</em> (breath control), <em>pratyahara</em> (withdrawal of the senses), <em>dharana</em> (concentration), <em>dhyana</em> (meditation), and <em>samadhi</em> (union with the divine). Practising only asana and calling it "yoga" is like playing only scales and calling it "music."</p>
@@ -5521,6 +5698,18 @@ body { padding-top: 0; }
   <!-- B. Article body -->
   <section style="padding:4rem 0; background:var(--bg-primary);">
     <div class="container-narrow fade-in" style="max-width:900px; margin:0 auto; padding:0 1.5rem;">
+      <!-- Key Takeaways -->
+      <div style="background:var(--bg-secondary); border:1px solid var(--border-light); border-left:4px solid var(--lamp-gold); border-radius:0 6px 6px 0; padding:1.5rem 1.75rem; margin-bottom:2.5rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:0.9rem;">
+          <span style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--laterite);">Key Takeaways</span>
+          <span style="font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; color:var(--text-tertiary);">3 min read</span>
+        </div>
+        <ul style="list-style:none; margin:0; padding:0; display:grid; gap:0.6rem;">
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>The samskaras are the sixteen rites of passage that mark a Hindu life &mdash; from before birth to after death.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>They insist that every transition deserves attention, intention, and the witness of community.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Not all are common in Singapore today, but knowing the full map enriches family and intergenerational bonds.</li>
+        </ul>
+      </div>
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">The Hindu samskaras are the rites of passage that mark the journey of a human life from before birth to after death. Traditionally, the texts describe sixteen samskaras &mdash; though the number varies by tradition &mdash; each one a conscious, community-witnessed transition from one stage of life to the next. They are not mere rituals. They are the grammar of a well-lived life, and they say something profound: that every transition deserves attention, intention, and blessing.</p>
 
       <h2 style="font-family:var(--font-display); font-weight:400; font-size:1.6rem; color:var(--temple-charcoal); margin:2rem 0 1rem;">The Sixteen Samskaras</h2>
@@ -5587,6 +5776,18 @@ body { padding-top: 0; }
   <!-- B. Article body -->
   <section style="padding:4rem 0; background:var(--bg-primary);">
     <div class="container-narrow fade-in" style="max-width:900px; margin:0 auto; padding:0 1.5rem;">
+      <!-- Key Takeaways -->
+      <div style="background:var(--bg-secondary); border:1px solid var(--border-light); border-left:4px solid var(--lamp-gold); border-radius:0 6px 6px 0; padding:1.5rem 1.75rem; margin-bottom:2.5rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:0.9rem;">
+          <span style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--laterite);">Key Takeaways</span>
+          <span style="font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; color:var(--text-tertiary);">3 min read</span>
+        </div>
+        <ul style="list-style:none; margin:0; padding:0; display:grid; gap:0.6rem;">
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>The English word &ldquo;myth&rdquo; misfires &mdash; in common use it means &ldquo;false,&rdquo; which it was never meant to.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Hinduism has precise terms: <em>Shruti</em>, <em>Smriti</em>, <em>Ithihasa</em> (&ldquo;it happened thus&rdquo;), <em>Purana</em> (&ldquo;ancient&rdquo;).</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>The tradition holds both literalist and philosopher; what it cannot accept is dismissal as &ldquo;just stories.&rdquo;</li>
+        </ul>
+      </div>
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">When a university textbook calls the Ramayana a "myth," it provokes outrage in many Hindu households. When a devotee insists the Mahabharata is literal history, it provokes scepticism in academic circles. Both reactions miss the point. The problem is not the Ramayana &mdash; the problem is that the English word "myth" is doing work it was never designed to do.</p>
 
       <h2 style="font-family:var(--font-display); font-weight:400; font-size:1.6rem; color:var(--temple-charcoal); margin:2rem 0 1rem;">Categories of Hindu Narrative</h2>
@@ -5652,6 +5853,18 @@ body { padding-top: 0; }
   <!-- B. Article body -->
   <section style="padding:4rem 0; background:var(--bg-primary);">
     <div class="container-narrow fade-in" style="max-width:900px; margin:0 auto; padding:0 1.5rem;">
+      <!-- Key Takeaways -->
+      <div style="background:var(--bg-secondary); border:1px solid var(--border-light); border-left:4px solid var(--lamp-gold); border-radius:0 6px 6px 0; padding:1.5rem 1.75rem; margin-bottom:2.5rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-bottom:0.9rem;">
+          <span style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--laterite);">Key Takeaways</span>
+          <span style="font-family:var(--font-mono); font-size:0.68rem; letter-spacing:0.06em; color:var(--text-tertiary);">3 min read</span>
+        </div>
+        <ul style="list-style:none; margin:0; padding:0; display:grid; gap:0.6rem;">
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>The Hindu texts read, at their core, as parenting guides for an unstable world.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>The Gita&rsquo;s <em>nishkama karma</em> (act without attachment to results) and <em>svadharma</em> (your own path) counter Singapore&rsquo;s outcome obsession.</li>
+          <li style="font-family:var(--font-body); font-size:0.95rem; line-height:1.6; color:var(--text-primary); padding-left:1.35rem; position:relative;"><span style="position:absolute; left:0; top:0.05rem; color:var(--lamp-gold);">&#10022;</span>Rituals as anchors and modelled values matter most &mdash; the home is the real classroom.</li>
+        </ul>
+      </div>
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">Every Hindu parent in Singapore lives with a quiet tension: how do you raise a child who is grounded in tradition and effective in a modern, secular, hyper-competitive world? How do you teach dharma to a generation that has more access to Netflix than to the Mahabharata? The answers are not as far away as they seem &mdash; because the Hindu texts have always been, at their core, parenting manuals for an unstable world.</p>
 
       <p style="font-family:var(--font-body); font-size:1.05rem; color:var(--text-primary); line-height:1.85; margin-bottom:1.5rem;">The Bhagavad Gita is, structurally, a conversation between a young man in crisis and his elder guide. Arjuna is overwhelmed, confused, paralysed by the complexity of what he faces. Krishna does not give him a simple answer. He gives him a framework: act according to your dharma, without attachment to the outcome. <em>Karmanye vadhikaraste ma phaleshu kadachana</em> (2.47). This is not fatalism &mdash; it is the most practical advice a parent can teach a child: do your best work, commit fully, and let go of the anxiety about results. In a Singapore education system that is outcome-obsessed, this is revolutionary parenting.</p>
@@ -6002,7 +6215,7 @@ body { padding-top: 0; }
                 <span style="font-family:var(--font-display); font-size:1.1rem;">$48 /year</span>
               </div>
             </div>
-            <a href="#" class="btn btn-outline-dark" style="width:100%; justify-content:center;">Join as Member &rarr;</a>
+            <a href="#" onclick="showSignup('signup-membership'); return false;" class="btn btn-outline-dark" style="width:100%; justify-content:center;">Join as Member &rarr;</a>
           </div>
 
           <!-- Corporate partnerships -->
@@ -6082,6 +6295,60 @@ body { padding-top: 0; }
             <select><option>No preference</option><option>Seedlings (4-6)</option><option>Roots (7-9)</option><option>Branches (10-12)</option><option>Canopy (13-16)</option></select>
           </div>
           <button type="button" class="btn btn-primary" style="width:100%; justify-content:center;">Submit Application &rarr;</button>
+        </form>
+      </div>
+
+      <!-- MEMBERSHIP APPLICATION -->
+      <div id="signup-membership" class="signup-form" style="display:none;">
+        <div class="section-label">Membership</div>
+        <h3 style="font-family:var(--font-display); font-weight:300; font-size:2rem; margin-bottom:0.5rem;">Become a Member</h3>
+        <p style="color:var(--text-secondary); line-height:1.8; margin-bottom:2rem;">Membership is how you make Hindu Centre yours &mdash; you vote at the AGM, help shape the organisation's direction, and get priority registration for programmes. Complete the form below and we'll confirm your membership by email. No account or login needed.</p>
+        <form>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your full name"></div>
+            <div class="form-group"><label>Email</label><input type="email" placeholder="you@example.com"></div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group"><label>Phone</label><input type="tel" placeholder="+65"></div>
+            <div class="form-group"><label>Membership Type</label>
+              <select><option>Individual &mdash; $24 / year</option><option>Family &mdash; $48 / year</option></select>
+            </div>
+          </div>
+          <div class="form-group"><label>Residential Address</label><input type="text" placeholder="Block, street, unit, postal code"></div>
+          <div class="form-group"><label>For family membership, list family members (optional)</label><textarea placeholder="Name and relationship for each family member"></textarea></div>
+          <div class="form-group"><label>How did you hear about Hindu Centre? (optional)</label><input type="text" placeholder="A friend, an event, social media…"></div>
+          <button type="button" class="btn btn-primary" style="width:100%; justify-content:center;">Submit Membership Application &rarr;</button>
+          <p style="font-size:0.75rem; color:var(--text-tertiary); margin-top:0.75rem; text-align:center;">Annual membership fee is payable by PayNow after we confirm your application. We'll send the details by email.</p>
+        </form>
+      </div>
+
+      <!-- FACILITY / HALL BOOKING -->
+      <div id="signup-facility" class="signup-form" style="display:none;">
+        <div class="section-label">Facility Booking</div>
+        <h3 style="font-family:var(--font-display); font-weight:300; font-size:2rem; margin-bottom:0.5rem;">Book a Facility</h3>
+        <p style="color:var(--text-secondary); line-height:1.8; margin-bottom:2rem;">Hindu Centre's hall and rooms are available for cultural, educational, and community use. Tell us what you need below and our admin team will check availability and come back to you with confirmation and rates.</p>
+        <form>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your full name"></div>
+            <div class="form-group"><label>Email</label><input type="email" placeholder="you@example.com"></div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group"><label>Phone</label><input type="tel" placeholder="+65"></div>
+            <div class="form-group"><label>Facility</label>
+              <select><option>Main Hall</option><option>Seminar / Class Room</option><option>Prayer Hall</option><option>Not sure &mdash; please advise</option></select>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group"><label>Preferred Date</label><input type="date"></div>
+            <div class="form-group"><label>Time Slot</label><input type="text" placeholder="e.g. 2pm–6pm"></div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group"><label>Purpose / Event</label><input type="text" placeholder="e.g. cultural programme, class, puja"></div>
+            <div class="form-group"><label>Expected Attendance</label><input type="number" placeholder="Number of guests"></div>
+          </div>
+          <div class="form-group"><label>Anything else we should know? (optional)</label><textarea placeholder="Setup needs, AV, catering, etc."></textarea></div>
+          <button type="button" class="btn btn-primary" style="width:100%; justify-content:center;">Submit Booking Request &rarr;</button>
+          <p style="font-size:0.75rem; color:var(--text-tertiary); margin-top:0.75rem; text-align:center;">This is a request, not a confirmed booking. We'll reply within a few working days.</p>
         </form>
       </div>
     </div>
@@ -6270,10 +6537,8 @@ body { padding-top: 0; }
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="nav-logo-mark" style="width:40px; height:40px;">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:20px; height:20px;">
-            <path d="M12 2C12 2 8 6 8 10C8 12 9.5 14 12 14C14.5 14 16 12 16 10C16 6 12 2 12 2ZM12 14C12 14 10 16 10 18C10 19.5 10.9 21 12 22C13.1 21 14 19.5 14 18C14 16 12 14 12 14Z"/>
-          </svg>
+        <div class="nav-logo-mark" style="width:52px; height:52px;">
+          <img src="HC%20Logo%20round%20only.png" alt="Hindu Centre mandala emblem">
         </div>
         <div class="footer-brand-name">Hindu Centre (Singapore)</div>
         <p>132 Owen Road<br>Singapore 218935</p>
@@ -6317,6 +6582,17 @@ body { padding-top: 0; }
         </ul>
       </div>
 
+      <div class="footer-col">
+        <h4>Get Involved</h4>
+        <ul>
+          <li><a href="#" data-page="resources">Resources &amp; Library</a></li>
+          <li><a href="#" onclick="navAndSignup('signup-membership'); return false;">Become a Member</a></li>
+          <li><a href="#" onclick="navAndSignup('signup-facility'); return false;">Book a Facility</a></li>
+          <li><a href="#" data-page="get-involved">Volunteer</a></li>
+          <li><a href="#" data-page="get-involved">Donate</a></li>
+        </ul>
+      </div>
+
       <div class="footer-col footer-newsletter">
         <h4>News from the Centre</h4>
         <p>One story, one event, one lesson &mdash; monthly.</p>
@@ -6348,6 +6624,12 @@ function showSignup(formId) {
   setTimeout(function() {
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 100);
+}
+
+// Navigate to Get Involved first, then reveal a form (used by nav + footer links)
+function navAndSignup(formId) {
+  showPage('get-involved');
+  setTimeout(function() { showSignup(formId); }, 140);
 }
 
 // Sticky header scroll effect + utility bar hide-on-scroll
