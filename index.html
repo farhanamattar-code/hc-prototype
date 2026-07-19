@@ -40,7 +40,7 @@
   "email": "admin@hinducentre.org.sg",
   "sameAs": [],
   "nonprofitStatus": "https://schema.org/CharitableIncorporatedOrganization",
-  "registrationNumber": "UEN: S79SS0016L",
+  "registrationNumber": "UEN: S78SS0017J",
   "ipcStatus": "Institution of a Public Character (IPC)",
   "areaServed": {
     "@type": "Country",
@@ -72,9 +72,14 @@
   --kumkum: #CC3333;
   --kumkum-light: #E04545;
   --kumkum-dark: #A02828;
-  --tulsi: #2E7D32;
-  --tulsi-light: #4CAF50;
-  --tulsi-dark: #1B5E20;
+  /* Brand accent changed June 2026: Tulsi Green → Peacock Blue (per Design Gita). */
+  --peacock: #0E6E8C;
+  --peacock-light: #2E97B5;
+  --peacock-dark: #0A4E63;
+  /* Legacy aliases — any remaining var(--tulsi*) now renders Peacock Blue. */
+  --tulsi: var(--peacock);
+  --tulsi-light: var(--peacock-light);
+  --tulsi-dark: var(--peacock-dark);
   --bg-primary: #FFF8F0;
   --bg-secondary: #FFF0E0;
   --bg-dark: #5B1A1A;
@@ -575,11 +580,16 @@ body {
   background: linear-gradient(160deg, #E8651A 0%, #5B1A1A 70%, #3D1010 100%);
 }
 
+/* Flame flicker — opacity ONLY.
+   ⚠️ Never animate `transform` here. These keyframes run on the diya groups
+   <g transform="translate(x,y)">, and in SVG a CSS transform OVERRIDES the
+   transform attribute — which collapsed every diya onto the origin (0,0) and
+   made them vanish. Opacity-only keeps the flames alive and the diyas in place. */
 @keyframes flicker {
-  0%, 100% { opacity: 0.7; transform: scaleY(1) scaleX(1); }
-  25% { opacity: 0.85; transform: scaleY(1.04) scaleX(0.97); }
-  50% { opacity: 0.6; transform: scaleY(0.96) scaleX(1.02); }
-  75% { opacity: 0.9; transform: scaleY(1.02) scaleX(0.98); }
+  0%, 100% { opacity: 0.7; }
+  25% { opacity: 0.9; }
+  50% { opacity: 0.6; }
+  75% { opacity: 0.95; }
 }
 @keyframes floatPetal {
   0% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
@@ -642,6 +652,16 @@ body {
 @keyframes lotusBloom {
   0%, 100% { transform: scale(0.85); }
   50% { transform: scale(1.05); }
+}
+/* SVG defaults transform-origin to the viewBox origin (0,0), so scale/rotate
+   animations drift elements toward the top-left instead of animating in place.
+   Anchor them to their own bounding box. */
+.hero svg g[style*="lotusBloom"],
+.hero svg g[style*="lotusSway"],
+.hero svg g[style*="leafAppear"],
+.hero svg g[style*="leafSway"] {
+  transform-box: fill-box;
+  transform-origin: center;
 }
 @keyframes lotusSway {
   0%, 100% { transform: rotate(-3deg); }
@@ -888,8 +908,10 @@ body {
   border-radius: 2px;
 }
 .accent-laterite { background: var(--laterite); }
-.accent-tulsi { background: var(--tulsi); }
+.accent-peacock { background: var(--peacock); }
+.accent-tulsi { background: var(--peacock); } /* legacy alias */
 .accent-kumkum { background: var(--kumkum); }
+.accent-lamp-gold { background: var(--lamp-gold); }
 .programme-card h3 {
   font-family: var(--font-display);
   font-weight: 400;
@@ -2696,9 +2718,9 @@ body { padding-top: 0; }
         <div class="nav-dropdown">
           <a href="#" data-page="get-involved" class="nav-dropdown-header">Take Action <span class="nav-dropdown-header-cta">All ways to help &rarr;</span></a>
           <a href="#" data-page="get-involved">Volunteer</a>
-          <a href="#" onclick="navAndSignup('signup-membership'); return false;">Become a Member <span class="nav-sub-meta">Join the Centre</span></a>
-          <a href="#" onclick="navAndSignup('signup-facility'); return false;">Book a Facility <span class="nav-sub-meta">Hall &amp; rooms</span></a>
-          <a href="#" data-page="get-involved" data-anchor="yuvashakti">Join Yuvashakti <span class="nav-sub-meta">Youth wing &middot; ages 18&ndash;35</span></a>
+          <a href="https://sfh.sg/hcmember" target="_blank" rel="noopener">Become a Member <span class="nav-sub-meta">Join the Centre</span></a>
+          <a href="https://sfh.sg/hcbooking" target="_blank" rel="noopener">Book a Facility <span class="nav-sub-meta">Hall &amp; rooms</span></a>
+          <a href="#" data-page="get-involved" data-anchor="yuvashakti">Yuvashakti <span class="nav-sub-meta">The youth circle &middot; ages 18&ndash;35</span></a>
           <a href="#" data-page="get-involved">Donate to the Jubilee <span class="nav-sub-meta">Road to 50</span></a>
         </div>
       </li>
@@ -3052,7 +3074,7 @@ body { padding-top: 0; }
           <svg viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="position:relative; z-index:2;">
             <!-- Very faint glow — barely perceptible, text always dominates -->
             <radialGradient id="sevaaGlow" cx="50%" cy="75%" r="45%">
-              <stop offset="0%" stop-color="#1B5E20" stop-opacity="0.07"/>
+              <stop offset="0%" stop-color="#0A4E63" stop-opacity="0.07"/>
               <stop offset="100%" stop-color="#5B1A1A" stop-opacity="0"/>
             </radialGradient>
             <rect width="1440" height="900" fill="url(#sevaaGlow)"/>
@@ -3061,65 +3083,65 @@ body { padding-top: 0; }
             <!-- Design Gita: Tulsi = accent only. Opacity kept to ~18–22% throughout. -->
 
             <!-- Warm ground glow — very subtle -->
-            <ellipse cx="720" cy="720" rx="260" ry="130" fill="#2E7D32" opacity="0"
+            <ellipse cx="720" cy="720" rx="260" ry="130" fill="#0E6E8C" opacity="0"
               style="animation: treeGlow 3s ease-out 1.5s forwards;"/>
 
             <!-- ===== TRUNK — fork at y=635, well below text zone ===== -->
             <path d="M720,895 C716,840 724,780 720,720 C716,668 722,648 720,635"
-              fill="none" stroke="#1B5E20" stroke-width="10" stroke-linecap="round" opacity="0.22"
+              fill="none" stroke="#0A4E63" stroke-width="10" stroke-linecap="round" opacity="0.22"
               stroke-dasharray="270" style="animation: stemGrow 2.5s ease-out 0s both;"/>
             <path d="M723,895 C719,840 727,780 723,720 C719,668 725,648 723,635"
-              fill="none" stroke="#2E7D32" stroke-width="4" stroke-linecap="round" opacity="0.10"
+              fill="none" stroke="#0E6E8C" stroke-width="4" stroke-linecap="round" opacity="0.10"
               stroke-dasharray="270" style="animation: stemGrow 2.5s ease-out 0.1s both;"/>
 
             <!-- ===== MAIN BRANCHES — spread wide from fork ===== -->
             <!-- Left-lower -->
             <path d="M720,655 C697,640 662,624 635,610 C613,597 596,588 578,582"
-              fill="none" stroke="#1B5E20" stroke-width="6" stroke-linecap="round" opacity="0.18"
+              fill="none" stroke="#0A4E63" stroke-width="6" stroke-linecap="round" opacity="0.18"
               stroke-dasharray="160" style="animation: stemGrow 1.8s ease-out 1.5s both;"/>
             <!-- Right-lower -->
             <path d="M720,655 C743,640 778,624 805,610 C827,597 844,588 862,582"
-              fill="none" stroke="#1B5E20" stroke-width="6" stroke-linecap="round" opacity="0.18"
+              fill="none" stroke="#0A4E63" stroke-width="6" stroke-linecap="round" opacity="0.18"
               stroke-dasharray="160" style="animation: stemGrow 1.8s ease-out 1.8s both;"/>
             <!-- Left-upper -->
             <path d="M720,642 C702,626 674,606 650,590 C630,576 614,564 620,555"
-              fill="none" stroke="#2E7D32" stroke-width="4" stroke-linecap="round" opacity="0.16"
+              fill="none" stroke="#0E6E8C" stroke-width="4" stroke-linecap="round" opacity="0.16"
               stroke-dasharray="130" style="animation: stemGrow 1.6s ease-out 2.1s both;"/>
             <!-- Right-upper -->
             <path d="M720,642 C738,626 766,606 790,590 C810,576 826,564 820,555"
-              fill="none" stroke="#2E7D32" stroke-width="4" stroke-linecap="round" opacity="0.16"
+              fill="none" stroke="#0E6E8C" stroke-width="4" stroke-linecap="round" opacity="0.16"
               stroke-dasharray="130" style="animation: stemGrow 1.6s ease-out 2.4s both;"/>
             <!-- Left-crown -->
             <path d="M720,638 C708,620 688,600 668,584 C652,570 642,558 648,547"
-              fill="none" stroke="#2E7D32" stroke-width="2.8" stroke-linecap="round" opacity="0.14"
+              fill="none" stroke="#0E6E8C" stroke-width="2.8" stroke-linecap="round" opacity="0.14"
               stroke-dasharray="110" style="animation: stemGrow 1.4s ease-out 2.7s both;"/>
             <!-- Right-crown -->
             <path d="M720,638 C732,620 752,600 772,584 C788,570 798,558 792,547"
-              fill="none" stroke="#2E7D32" stroke-width="2.8" stroke-linecap="round" opacity="0.14"
+              fill="none" stroke="#0E6E8C" stroke-width="2.8" stroke-linecap="round" opacity="0.14"
               stroke-dasharray="110" style="animation: stemGrow 1.4s ease-out 3.0s both;"/>
             <!-- Crown-top -->
             <path d="M720,638 C718,618 720,596 720,576 C720,560 720,549 720,540"
-              fill="none" stroke="#388E3C" stroke-width="2.2" stroke-linecap="round" opacity="0.14"
+              fill="none" stroke="#2E97B5" stroke-width="2.2" stroke-linecap="round" opacity="0.14"
               stroke-dasharray="105" style="animation: stemGrow 1.4s ease-out 3.2s both;"/>
 
             <!-- ===== SUB-BRANCHES ===== -->
             <path d="M638,608 C626,598 612,588 602,582"
-              fill="none" stroke="#2E7D32" stroke-width="1.8" stroke-linecap="round" opacity="0.11"
+              fill="none" stroke="#0E6E8C" stroke-width="1.8" stroke-linecap="round" opacity="0.11"
               stroke-dasharray="48" style="animation: stemGrow 1s ease-out 2.4s both;"/>
             <path d="M802,608 C814,598 828,588 840,582"
-              fill="none" stroke="#2E7D32" stroke-width="1.8" stroke-linecap="round" opacity="0.11"
+              fill="none" stroke="#0E6E8C" stroke-width="1.8" stroke-linecap="round" opacity="0.11"
               stroke-dasharray="48" style="animation: stemGrow 1s ease-out 2.7s both;"/>
             <path d="M720,575 C710,565 702,557 696,550"
-              fill="none" stroke="#388E3C" stroke-width="1.5" stroke-linecap="round" opacity="0.10"
+              fill="none" stroke="#2E97B5" stroke-width="1.5" stroke-linecap="round" opacity="0.10"
               stroke-dasharray="34" style="animation: stemGrow 0.9s ease-out 3.5s both;"/>
             <path d="M720,575 C730,565 738,557 744,550"
-              fill="none" stroke="#388E3C" stroke-width="1.5" stroke-linecap="round" opacity="0.10"
+              fill="none" stroke="#2E97B5" stroke-width="1.5" stroke-linecap="round" opacity="0.10"
               stroke-dasharray="34" style="animation: stemGrow 0.9s ease-out 3.7s both;"/>
             <path d="M656,576 C644,564 630,554 626,545"
-              fill="none" stroke="#2E7D32" stroke-width="1.4" stroke-linecap="round" opacity="0.10"
+              fill="none" stroke="#0E6E8C" stroke-width="1.4" stroke-linecap="round" opacity="0.10"
               stroke-dasharray="40" style="animation: stemGrow 0.9s ease-out 3.2s both;"/>
             <path d="M784,576 C796,564 810,554 814,545"
-              fill="none" stroke="#2E7D32" stroke-width="1.4" stroke-linecap="round" opacity="0.10"
+              fill="none" stroke="#0E6E8C" stroke-width="1.4" stroke-linecap="round" opacity="0.10"
               stroke-dasharray="40" style="animation: stemGrow 0.9s ease-out 3.4s both;"/>
 
             <!-- ===== LEAVES — fly in from wide, land on lower branches ===== -->
@@ -3128,120 +3150,120 @@ body { padding-top: 0; }
             <!-- L1: Left-lower tip (578,582) — from far lower-left -->
             <g transform="translate(578,582)">
               <g style="animation:leafFlyIn 12s ease-in-out 0s infinite;--lx-start:-492px;--ly-start:58px;--lr-start:132deg;--lr-land:-30deg;--lr-exit:-105deg;--lx-exit:-80px;--ly-exit:-110px;--leaf-opacity:0.33;">
-                <path d="M0,0 C17,-6 20,-28 0,-46 C-20,-28 -17,-6 0,0Z" fill="#2E7D32"/>
-                <line x1="0" y1="0" x2="0" y2="-46" stroke="#1B5E20" stroke-width="0.9" opacity="0.3"/>
+                <path d="M0,0 C17,-6 20,-28 0,-46 C-20,-28 -17,-6 0,0Z" fill="#0E6E8C"/>
+                <line x1="0" y1="0" x2="0" y2="-46" stroke="#0A4E63" stroke-width="0.9" opacity="0.3"/>
               </g>
             </g>
 
             <!-- L2: Right-lower tip (862,582) — from far lower-right -->
             <g transform="translate(862,582)">
               <g style="animation:leafFlyIn 11s ease-in-out 0.9s infinite;--lx-start:460px;--ly-start:42px;--lr-start:-132deg;--lr-land:30deg;--lr-exit:105deg;--lx-exit:80px;--ly-exit:-110px;--leaf-opacity:0.32;">
-                <path d="M0,0 C17,-6 20,-28 0,-46 C-20,-28 -17,-6 0,0Z" fill="#1B5E20"/>
-                <line x1="0" y1="0" x2="0" y2="-46" stroke="#1B5E20" stroke-width="0.9" opacity="0.25"/>
+                <path d="M0,0 C17,-6 20,-28 0,-46 C-20,-28 -17,-6 0,0Z" fill="#0A4E63"/>
+                <line x1="0" y1="0" x2="0" y2="-46" stroke="#0A4E63" stroke-width="0.9" opacity="0.25"/>
               </g>
             </g>
 
             <!-- L3: Left-upper tip (620,557) — from upper-left -->
             <g transform="translate(620,557)">
               <g style="animation:leafFlyIn 13s ease-in-out 1.8s infinite;--lx-start:-372px;--ly-start:-317px;--lr-start:142deg;--lr-land:-46deg;--lr-exit:-112deg;--lx-exit:-64px;--ly-exit:-130px;--leaf-opacity:0.30;">
-                <path d="M0,0 C16,-5 19,-26 0,-44 C-19,-26 -16,-5 0,0Z" fill="#2E7D32"/>
-                <line x1="0" y1="0" x2="0" y2="-44" stroke="#1B5E20" stroke-width="0.7" opacity="0.25"/>
+                <path d="M0,0 C16,-5 19,-26 0,-44 C-19,-26 -16,-5 0,0Z" fill="#0E6E8C"/>
+                <line x1="0" y1="0" x2="0" y2="-44" stroke="#0A4E63" stroke-width="0.7" opacity="0.25"/>
               </g>
             </g>
 
             <!-- L4: Right-upper tip (820,557) — from upper-right -->
             <g transform="translate(820,557)">
               <g style="animation:leafFlyIn 10.5s ease-in-out 2.6s infinite;--lx-start:372px;--ly-start:-315px;--lr-start:-142deg;--lr-land:46deg;--lr-exit:112deg;--lx-exit:64px;--ly-exit:-130px;--leaf-opacity:0.30;">
-                <path d="M0,0 C16,-5 19,-26 0,-44 C-19,-26 -16,-5 0,0Z" fill="#388E3C"/>
-                <line x1="0" y1="0" x2="0" y2="-44" stroke="#2E7D32" stroke-width="0.7" opacity="0.22"/>
+                <path d="M0,0 C16,-5 19,-26 0,-44 C-19,-26 -16,-5 0,0Z" fill="#2E97B5"/>
+                <line x1="0" y1="0" x2="0" y2="-44" stroke="#0E6E8C" stroke-width="0.7" opacity="0.22"/>
               </g>
             </g>
 
             <!-- L5: Left-crown tip (648,549) — from upper-left -->
             <g transform="translate(648,549)">
               <g style="animation:leafFlyIn 14s ease-in-out 3.3s infinite;--lx-start:-314px;--ly-start:-325px;--lr-start:118deg;--lr-land:-58deg;--lr-exit:-120deg;--lx-exit:-50px;--ly-exit:-140px;--leaf-opacity:0.32;">
-                <path d="M0,0 C16,-5 19,-26 0,-44 C-19,-26 -16,-5 0,0Z" fill="#1B5E20"/>
-                <line x1="0" y1="0" x2="0" y2="-44" stroke="#1B5E20" stroke-width="0.6" opacity="0.2"/>
+                <path d="M0,0 C16,-5 19,-26 0,-44 C-19,-26 -16,-5 0,0Z" fill="#0A4E63"/>
+                <line x1="0" y1="0" x2="0" y2="-44" stroke="#0A4E63" stroke-width="0.6" opacity="0.2"/>
               </g>
             </g>
 
             <!-- L6: Right-crown tip (792,549) — from upper-right -->
             <g transform="translate(792,549)">
               <g style="animation:leafFlyIn 11.5s ease-in-out 4.0s infinite;--lx-start:312px;--ly-start:-325px;--lr-start:-118deg;--lr-land:58deg;--lr-exit:120deg;--lx-exit:50px;--ly-exit:-140px;--leaf-opacity:0.32;">
-                <path d="M0,0 C16,-5 19,-26 0,-44 C-19,-26 -16,-5 0,0Z" fill="#2E7D32"/>
-                <line x1="0" y1="0" x2="0" y2="-44" stroke="#1B5E20" stroke-width="0.6" opacity="0.2"/>
+                <path d="M0,0 C16,-5 19,-26 0,-44 C-19,-26 -16,-5 0,0Z" fill="#0E6E8C"/>
+                <line x1="0" y1="0" x2="0" y2="-44" stroke="#0A4E63" stroke-width="0.6" opacity="0.2"/>
               </g>
             </g>
 
             <!-- L7: Crown-top (720,542) — from above -->
             <g transform="translate(720,542)">
               <g style="animation:leafFlyIn 12.5s ease-in-out 4.6s infinite;--lx-start:0px;--ly-start:-375px;--lr-start:0deg;--lr-land:0deg;--lr-exit:20deg;--lx-exit:18px;--ly-exit:-155px;--leaf-opacity:0.34;">
-                <path d="M0,0 C17,-6 20,-28 0,-48 C-20,-28 -17,-6 0,0Z" fill="#2E7D32"/>
-                <line x1="0" y1="0" x2="0" y2="-48" stroke="#1B5E20" stroke-width="0.8" opacity="0.25"/>
+                <path d="M0,0 C17,-6 20,-28 0,-48 C-20,-28 -17,-6 0,0Z" fill="#0E6E8C"/>
+                <line x1="0" y1="0" x2="0" y2="-48" stroke="#0A4E63" stroke-width="0.8" opacity="0.25"/>
               </g>
             </g>
 
             <!-- L8: Sub from lower-left (602,582) — from lower-left -->
             <g transform="translate(602,582)">
               <g style="animation:leafFlyIn 10s ease-in-out 0.5s infinite;--lx-start:-424px;--ly-start:62px;--lr-start:116deg;--lr-land:-18deg;--lr-exit:-88deg;--lx-exit:-78px;--ly-exit:-94px;--leaf-opacity:0.28;">
-                <path d="M0,0 C14,-4 17,-22 0,-40 C-17,-22 -14,-4 0,0Z" fill="#388E3C"/>
-                <line x1="0" y1="0" x2="0" y2="-40" stroke="#2E7D32" stroke-width="0.6" opacity="0.2"/>
+                <path d="M0,0 C14,-4 17,-22 0,-40 C-17,-22 -14,-4 0,0Z" fill="#2E97B5"/>
+                <line x1="0" y1="0" x2="0" y2="-40" stroke="#0E6E8C" stroke-width="0.6" opacity="0.2"/>
               </g>
             </g>
 
             <!-- L9: Sub from lower-right (840,582) — from lower-right -->
             <g transform="translate(840,582)">
               <g style="animation:leafFlyIn 13.5s ease-in-out 1.3s infinite;--lx-start:418px;--ly-start:48px;--lr-start:-116deg;--lr-land:18deg;--lr-exit:88deg;--lx-exit:78px;--ly-exit:-94px;--leaf-opacity:0.28;">
-                <path d="M0,0 C14,-4 17,-22 0,-40 C-17,-22 -14,-4 0,0Z" fill="#2E7D32"/>
-                <line x1="0" y1="0" x2="0" y2="-40" stroke="#1B5E20" stroke-width="0.6" opacity="0.2"/>
+                <path d="M0,0 C14,-4 17,-22 0,-40 C-17,-22 -14,-4 0,0Z" fill="#0E6E8C"/>
+                <line x1="0" y1="0" x2="0" y2="-40" stroke="#0A4E63" stroke-width="0.6" opacity="0.2"/>
               </g>
             </g>
 
             <!-- L10: Crown sub-left (696,552) — from upper-left -->
             <g transform="translate(696,552)">
               <g style="animation:leafFlyIn 11s ease-in-out 2.2s infinite;--lx-start:-222px;--ly-start:-330px;--lr-start:102deg;--lr-land:-12deg;--lr-exit:-78deg;--lx-exit:-36px;--ly-exit:-145px;--leaf-opacity:0.30;">
-                <path d="M0,0 C15,-5 18,-24 0,-42 C-18,-24 -15,-5 0,0Z" fill="#1B5E20"/>
-                <line x1="0" y1="0" x2="0" y2="-42" stroke="#1B5E20" stroke-width="0.6" opacity="0.2"/>
+                <path d="M0,0 C15,-5 18,-24 0,-42 C-18,-24 -15,-5 0,0Z" fill="#0A4E63"/>
+                <line x1="0" y1="0" x2="0" y2="-42" stroke="#0A4E63" stroke-width="0.6" opacity="0.2"/>
               </g>
             </g>
 
             <!-- L11: Crown sub-right (744,552) — from upper-right -->
             <g transform="translate(744,552)">
               <g style="animation:leafFlyIn 12s ease-in-out 3.0s infinite;--lx-start:220px;--ly-start:-330px;--lr-start:-102deg;--lr-land:12deg;--lr-exit:78deg;--lx-exit:36px;--ly-exit:-145px;--leaf-opacity:0.30;">
-                <path d="M0,0 C15,-5 18,-24 0,-42 C-18,-24 -15,-5 0,0Z" fill="#388E3C"/>
-                <line x1="0" y1="0" x2="0" y2="-42" stroke="#2E7D32" stroke-width="0.6" opacity="0.18"/>
+                <path d="M0,0 C15,-5 18,-24 0,-42 C-18,-24 -15,-5 0,0Z" fill="#2E97B5"/>
+                <line x1="0" y1="0" x2="0" y2="-42" stroke="#0E6E8C" stroke-width="0.6" opacity="0.18"/>
               </g>
             </g>
 
             <!-- L12: Far-left (572,592) — from far left -->
             <g transform="translate(572,592)">
               <g style="animation:leafFlyIn 14s ease-in-out 1.1s infinite;--lx-start:-494px;--ly-start:50px;--lr-start:126deg;--lr-land:-8deg;--lr-exit:-92deg;--lx-exit:-90px;--ly-exit:-80px;--leaf-opacity:0.26;">
-                <path d="M0,0 C13,-4 16,-20 0,-38 C-16,-20 -13,-4 0,0Z" fill="#2E7D32"/>
-                <line x1="0" y1="0" x2="0" y2="-38" stroke="#1B5E20" stroke-width="0.5" opacity="0.18"/>
+                <path d="M0,0 C13,-4 16,-20 0,-38 C-16,-20 -13,-4 0,0Z" fill="#0E6E8C"/>
+                <line x1="0" y1="0" x2="0" y2="-38" stroke="#0A4E63" stroke-width="0.5" opacity="0.18"/>
               </g>
             </g>
 
             <!-- L13: Far-right (868,592) — from far right -->
             <g transform="translate(868,592)">
               <g style="animation:leafFlyIn 10.5s ease-in-out 2.0s infinite;--lx-start:488px;--ly-start:32px;--lr-start:-126deg;--lr-land:8deg;--lr-exit:92deg;--lx-exit:90px;--ly-exit:-80px;--leaf-opacity:0.26;">
-                <path d="M0,0 C13,-4 16,-20 0,-38 C-16,-20 -13,-4 0,0Z" fill="#1B5E20"/>
-                <line x1="0" y1="0" x2="0" y2="-38" stroke="#1B5E20" stroke-width="0.5" opacity="0.18"/>
+                <path d="M0,0 C13,-4 16,-20 0,-38 C-16,-20 -13,-4 0,0Z" fill="#0A4E63"/>
+                <line x1="0" y1="0" x2="0" y2="-38" stroke="#0A4E63" stroke-width="0.5" opacity="0.18"/>
               </g>
             </g>
 
             <!-- L14: Left-upper sub (626,547) — from upper-left -->
             <g transform="translate(626,547)">
               <g style="animation:leafFlyIn 13s ease-in-out 3.7s infinite;--lx-start:-348px;--ly-start:-320px;--lr-start:136deg;--lr-land:-38deg;--lr-exit:-104deg;--lx-exit:-58px;--ly-exit:-124px;--leaf-opacity:0.30;">
-                <path d="M0,0 C15,-5 18,-24 0,-42 C-18,-24 -15,-5 0,0Z" fill="#2E7D32"/>
-                <line x1="0" y1="0" x2="0" y2="-42" stroke="#1B5E20" stroke-width="0.6" opacity="0.2"/>
+                <path d="M0,0 C15,-5 18,-24 0,-42 C-18,-24 -15,-5 0,0Z" fill="#0E6E8C"/>
+                <line x1="0" y1="0" x2="0" y2="-42" stroke="#0A4E63" stroke-width="0.6" opacity="0.2"/>
               </g>
             </g>
 
             <!-- L15: Right-upper sub (814,547) — from upper-right -->
             <g transform="translate(814,547)">
               <g style="animation:leafFlyIn 11.5s ease-in-out 4.3s infinite;--lx-start:342px;--ly-start:-320px;--lr-start:-136deg;--lr-land:38deg;--lr-exit:104deg;--lx-exit:58px;--ly-exit:-124px;--leaf-opacity:0.30;">
-                <path d="M0,0 C15,-5 18,-24 0,-42 C-18,-24 -15,-5 0,0Z" fill="#388E3C"/>
-                <line x1="0" y1="0" x2="0" y2="-42" stroke="#2E7D32" stroke-width="0.6" opacity="0.18"/>
+                <path d="M0,0 C15,-5 18,-24 0,-42 C-18,-24 -15,-5 0,0Z" fill="#2E97B5"/>
+                <line x1="0" y1="0" x2="0" y2="-42" stroke="#0E6E8C" stroke-width="0.6" opacity="0.18"/>
               </g>
             </g>
 
@@ -3419,7 +3441,7 @@ body { padding-top: 0; }
           <div style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; color:#F5B800; text-transform:uppercase; margin-bottom:1rem;">The Next Generation</div>
           <h3 style="font-family:var(--font-display); font-weight:400; font-size:1.4rem; color:#FFF8F0; margin-bottom:0.75rem;">Yuvashakti</h3>
           <p style="font-size:0.88rem; color:rgba(255,248,240,0.65); line-height:1.7; margin-bottom:1rem;">Hindu Centre&rsquo;s youth wing &mdash; for Singaporean Hindus aged 18 to 35 who want to learn, lead, and shape what comes next. Rebuilding through 2026&ndash;2028.</p>
-          <a href="#" data-page="get-involved" style="font-size:0.82rem; color:#F5B800; text-decoration:none; font-weight:500;">Join the Yuvashakti circle &rarr;</a>
+          <a href="#" data-page="get-involved" data-anchor="yuvashakti" style="font-size:0.82rem; color:#F5B800; text-decoration:none; font-weight:500;">About Yuvashakti &rarr;</a>
         </div>
 
         <!-- Jubilee card -->
@@ -3503,7 +3525,7 @@ body { padding-top: 0; }
             <li>Bandhu &mdash; Family Support <span class="lw-arrow">&rarr;</span></li>
             <li>Chakra &mdash; Prison Chaplaincy <span class="lw-arrow">&rarr;</span></li>
             <li>Mantranam &mdash; Counselling <span class="lw-arrow">&rarr;</span></li>
-            <li>Volunteer with Yuvashakti <span class="lw-arrow">&rarr;</span></li>
+            <li>Register interest in Yuvashakti <span class="lw-arrow">&rarr;</span></li>
           </ul>
         </div>
       </div>
@@ -3570,10 +3592,10 @@ body { padding-top: 0; }
             </div>
             <div class="gic-action-arrow">&rarr;</div>
           </a>
-          <a href="#" data-page="events" class="gic-action-card">
+          <a href="#" data-page="get-involved" data-anchor="yuvashakti" class="gic-action-card">
             <div class="gic-action-card-text">
-              <h3>Join the Yuvashakti Circle</h3>
-              <p>Hindu Centre&rsquo;s youth wing &mdash; for the next generation of seekers, builders, and leaders.</p>
+              <h3>Yuvashakti</h3>
+              <p>Our youth circle is being revived for the 2028 Jubilee &mdash; register your interest and help shape it.</p>
             </div>
             <div class="gic-action-arrow">&rarr;</div>
           </a>
@@ -3694,11 +3716,11 @@ body { padding-top: 0; }
         </div>
 
         <!-- Stream 3: Vedic Yoga -->
-        <div id="vedic-yoga" style="background:#fff; border-radius:6px; padding:2rem; display:grid; grid-template-columns:140px 1fr auto; gap:2rem; align-items:start; border-left:4px solid var(--tulsi);">
+        <div id="vedic-yoga" style="background:#fff; border-radius:6px; padding:2rem; display:grid; grid-template-columns:140px 1fr auto; gap:2rem; align-items:start; border-left:4px solid var(--peacock);">
           <div>
             <img src="Prompt_19.png" alt="Vedic Yoga — eight participants on purple mats eyes closed, hands at heart in anjali mudra, teacher in white cotton kurta at front with a brass oil lamp, warm morning window light" style="width:140px; height:140px; object-fit:cover; border-radius:4px; margin-bottom:0.75rem;">
-            <div style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.15em; color:var(--tulsi); text-transform:uppercase; margin-bottom:0.3rem;">Stream 03</div>
-            <div style="font-family:var(--font-display); font-weight:300; font-size:1.8rem; color:var(--tulsi); line-height:0.9;">Yoga</div>
+            <div style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.15em; color:var(--peacock); text-transform:uppercase; margin-bottom:0.3rem;">Stream 03</div>
+            <div style="font-family:var(--font-display); font-weight:300; font-size:1.8rem; color:var(--peacock); line-height:0.9;">Yoga</div>
           </div>
           <div>
             <h4 style="font-family:var(--font-display); font-weight:500; font-size:1.35rem; color:var(--temple-charcoal); margin-bottom:0.5rem;">Vedic Yoga &amp; Chanting</h4>
@@ -4672,50 +4694,50 @@ body { padding-top: 0; }
       <div class="fade-in" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:1rem 1.5rem;">
 
         <!-- Paper -->
-        <a href="#" onclick="showPage('paper-dispose-idols'); return false;" data-page="page-paper-dispose-idols" style="background:#fff; border:1px solid var(--border-light); border-left:3px solid var(--tulsi); border-radius:0 4px 4px 0; padding:1.4rem 1.5rem; display:block; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+        <a href="#" onclick="showPage('paper-dispose-idols'); return false;" data-page="page-paper-dispose-idols" style="background:#fff; border:1px solid var(--border-light); border-left:3px solid var(--peacock); border-radius:0 4px 4px 0; padding:1.4rem 1.5rem; display:block; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:0.5rem;">
             <h4 style="font-family:var(--font-display); font-weight:500; font-size:1.05rem; color:var(--temple-charcoal); line-height:1.3; flex:1;">How to dispose of pictures and vigrahas of our deities</h4>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--tulsi); text-transform:uppercase; background:rgba(46,125,50,0.08); padding:0.25rem 0.55rem; border-radius:2px; white-space:nowrap;">Published</span>
+            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--peacock); text-transform:uppercase; background:rgba(14,110,140,0.08); padding:0.25rem 0.55rem; border-radius:2px; white-space:nowrap;">Published</span>
           </div>
           <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">A practical, respectful guide for one of the most common questions Hindu families face.</p>
         </a>
 
-        <a href="#" onclick="showPage('paper-namaste'); return false;" data-page="page-paper-namaste" style="background:#fff; border:1px solid var(--border-light); border-left:3px solid var(--tulsi); border-radius:0 4px 4px 0; padding:1.4rem 1.5rem; display:block; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+        <a href="#" onclick="showPage('paper-namaste'); return false;" data-page="page-paper-namaste" style="background:#fff; border:1px solid var(--border-light); border-left:3px solid var(--peacock); border-radius:0 4px 4px 0; padding:1.4rem 1.5rem; display:block; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:0.5rem;">
             <h4 style="font-family:var(--font-display); font-weight:500; font-size:1.05rem; color:var(--temple-charcoal); line-height:1.3; flex:1;">Namaste and Vanakkam to everyone</h4>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--tulsi); text-transform:uppercase; background:rgba(46,125,50,0.08); padding:0.25rem 0.55rem; border-radius:2px; white-space:nowrap;">Published</span>
+            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--peacock); text-transform:uppercase; background:rgba(14,110,140,0.08); padding:0.25rem 0.55rem; border-radius:2px; white-space:nowrap;">Published</span>
           </div>
           <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">On greeting, hospitality, and the universality of Hindu welcome. Published in Patrika, May.</p>
         </a>
 
-        <a href="#" onclick="showPage('paper-ringing-bell'); return false;" data-page="page-paper-ringing-bell" style="background:#fff; border:1px solid var(--border-light); border-left:3px solid var(--tulsi); border-radius:0 4px 4px 0; padding:1.4rem 1.5rem; display:block; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+        <a href="#" onclick="showPage('paper-ringing-bell'); return false;" data-page="page-paper-ringing-bell" style="background:#fff; border:1px solid var(--border-light); border-left:3px solid var(--peacock); border-radius:0 4px 4px 0; padding:1.4rem 1.5rem; display:block; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:0.5rem;">
             <h4 style="font-family:var(--font-display); font-weight:500; font-size:1.05rem; color:var(--temple-charcoal); line-height:1.3; flex:1;">Ringing the bell</h4>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--tulsi); text-transform:uppercase; background:rgba(46,125,50,0.08); padding:0.25rem 0.55rem; border-radius:2px; white-space:nowrap;">Published</span>
+            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--peacock); text-transform:uppercase; background:rgba(14,110,140,0.08); padding:0.25rem 0.55rem; border-radius:2px; white-space:nowrap;">Published</span>
           </div>
           <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">Why we ring the bell at puja &mdash; sound, ritual, and the calling of attention. Published on Facebook.</p>
         </a>
 
-        <a href="#" onclick="showPage('paper-hinduism-suicide'); return false;" data-page="page-paper-hinduism-suicide" style="background:#fff; border:1px solid var(--border-light); border-left:3px solid var(--tulsi); border-radius:0 4px 4px 0; padding:1.4rem 1.5rem; display:block; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+        <a href="#" onclick="showPage('paper-hinduism-suicide'); return false;" data-page="page-paper-hinduism-suicide" style="background:#fff; border:1px solid var(--border-light); border-left:3px solid var(--peacock); border-radius:0 4px 4px 0; padding:1.4rem 1.5rem; display:block; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:0.5rem;">
             <h4 style="font-family:var(--font-display); font-weight:500; font-size:1.05rem; color:var(--temple-charcoal); line-height:1.3; flex:1;">Hinduism and suicide</h4>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--tulsi); text-transform:uppercase; background:rgba(46,125,50,0.08); padding:0.25rem 0.55rem; border-radius:2px; white-space:nowrap;">Published</span>
+            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--peacock); text-transform:uppercase; background:rgba(14,110,140,0.08); padding:0.25rem 0.55rem; border-radius:2px; white-space:nowrap;">Published</span>
           </div>
           <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">A dharmic perspective on suicide, mental health, and the dignity of life &mdash; with care for those grieving.</p>
         </a>
 
-        <a href="#" onclick="showPage('paper-many-gods'); return false;" data-page="page-paper-many-gods" style="background:#fff; border:1px solid var(--border-light); border-left:3px solid var(--tulsi); border-radius:0 4px 4px 0; padding:1.4rem 1.5rem; display:block; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+        <a href="#" onclick="showPage('paper-many-gods'); return false;" data-page="page-paper-many-gods" style="background:#fff; border:1px solid var(--border-light); border-left:3px solid var(--peacock); border-radius:0 4px 4px 0; padding:1.4rem 1.5rem; display:block; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:0.5rem;">
             <h4 style="font-family:var(--font-display); font-weight:500; font-size:1.05rem; color:var(--temple-charcoal); line-height:1.3; flex:1;">Many gods, or one god?</h4>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--tulsi); text-transform:uppercase; background:rgba(46,125,50,0.08); padding:0.25rem 0.55rem; border-radius:2px; white-space:nowrap;">Published</span>
+            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--peacock); text-transform:uppercase; background:rgba(14,110,140,0.08); padding:0.25rem 0.55rem; border-radius:2px; white-space:nowrap;">Published</span>
           </div>
           <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">The question every Hindu child has been asked. Brahman, devas, and the geometry of the divine.</p>
         </a>
 
-        <a href="#" onclick="showPage('paper-hinduism-lgbt'); return false;" data-page="page-paper-hinduism-lgbt" style="background:#fff; border:1px solid var(--border-light); border-left:3px solid var(--tulsi); border-radius:0 4px 4px 0; padding:1.4rem 1.5rem; display:block; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+        <a href="#" onclick="showPage('paper-hinduism-lgbt'); return false;" data-page="page-paper-hinduism-lgbt" style="background:#fff; border:1px solid var(--border-light); border-left:3px solid var(--peacock); border-radius:0 4px 4px 0; padding:1.4rem 1.5rem; display:block; text-decoration:none; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; margin-bottom:0.5rem;">
             <h4 style="font-family:var(--font-display); font-weight:500; font-size:1.05rem; color:var(--temple-charcoal); line-height:1.3; flex:1;">Hinduism and LGBT</h4>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--tulsi); text-transform:uppercase; background:rgba(46,125,50,0.08); padding:0.25rem 0.55rem; border-radius:2px; white-space:nowrap;">Published</span>
+            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--peacock); text-transform:uppercase; background:rgba(14,110,140,0.08); padding:0.25rem 0.55rem; border-radius:2px; white-space:nowrap;">Published</span>
           </div>
           <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.55;">A measured reading of dharma, plurality, and contemporary identity.</p>
         </a>
@@ -4778,7 +4800,7 @@ body { padding-top: 0; }
         </a>
         <a href="#" onclick="showPage('vedic-yoga'); return false;" style="background:#fff; border:1px solid var(--border-light); border-radius:6px; overflow:hidden; text-decoration:none; display:block; transition:all 0.2s;" onmouseover="this.style.boxShadow='0 6px 18px rgba(91,26,26,0.08)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
           <div style="padding:1.5rem;">
-            <div style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--tulsi); text-transform:uppercase; margin-bottom:0.6rem;">Practice Guide</div>
+            <div style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--peacock); text-transform:uppercase; margin-bottom:0.6rem;">Practice Guide</div>
             <h4 style="font-family:var(--font-display); font-weight:500; font-size:1.1rem; color:var(--temple-charcoal); margin-bottom:0.4rem;">Yoga, the Vedic Way</h4>
             <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.6;">Reclaiming yoga as spiritual practice &mdash; what it is, and what it isn't.</p>
           </div>
@@ -5150,7 +5172,7 @@ body { padding-top: 0; }
           <h1 class="section-title" style="color:var(--text-inverse); font-size:2.8rem; margin-bottom:1rem;">Many Gods, or One God? A Hindu Answer</h1>
           <div style="display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;">
             <p style="font-family:var(--font-body); font-size:0.85rem; color:rgba(255,240,224,0.7); margin:0;">Hindu Centre Singapore &middot; Published 2024</p>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:#fff; text-transform:uppercase; background:var(--tulsi); padding:0.3rem 0.7rem; border-radius:2px;">Published</span>
+            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:#fff; text-transform:uppercase; background:var(--peacock); padding:0.3rem 0.7rem; border-radius:2px;">Published</span>
           </div>
         </div>
       </div>
@@ -5230,7 +5252,7 @@ body { padding-top: 0; }
           <h1 class="section-title" style="color:var(--text-inverse); font-size:2.8rem; margin-bottom:1rem;">Namaste and Vanakkam: The Meaning Behind the Greeting</h1>
           <div style="display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;">
             <p style="font-family:var(--font-body); font-size:0.85rem; color:rgba(255,240,224,0.7); margin:0;">Hindu Centre Singapore &middot; Published 2024</p>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:#fff; text-transform:uppercase; background:var(--tulsi); padding:0.3rem 0.7rem; border-radius:2px;">Published</span>
+            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:#fff; text-transform:uppercase; background:var(--peacock); padding:0.3rem 0.7rem; border-radius:2px;">Published</span>
           </div>
         </div>
       </div>
@@ -5311,7 +5333,7 @@ body { padding-top: 0; }
           <h1 class="section-title" style="color:var(--text-inverse); font-size:2.8rem; margin-bottom:1rem;">How to Respectfully Dispose of Hindu Deity Images and Vigrahas</h1>
           <div style="display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;">
             <p style="font-family:var(--font-body); font-size:0.85rem; color:rgba(255,240,224,0.7); margin:0;">Hindu Centre Singapore &middot; Published 2023</p>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:#fff; text-transform:uppercase; background:var(--tulsi); padding:0.3rem 0.7rem; border-radius:2px;">Published</span>
+            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:#fff; text-transform:uppercase; background:var(--peacock); padding:0.3rem 0.7rem; border-radius:2px;">Published</span>
           </div>
         </div>
       </div>
@@ -5388,7 +5410,7 @@ body { padding-top: 0; }
           <h1 class="section-title" style="color:var(--text-inverse); font-size:2.8rem; margin-bottom:1rem;">Why We Ring the Bell at the Temple</h1>
           <div style="display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;">
             <p style="font-family:var(--font-body); font-size:0.85rem; color:rgba(255,240,224,0.7); margin:0;">Hindu Centre Singapore &middot; Published 2023</p>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:#fff; text-transform:uppercase; background:var(--tulsi); padding:0.3rem 0.7rem; border-radius:2px;">Published</span>
+            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:#fff; text-transform:uppercase; background:var(--peacock); padding:0.3rem 0.7rem; border-radius:2px;">Published</span>
           </div>
         </div>
       </div>
@@ -5463,7 +5485,7 @@ body { padding-top: 0; }
           <h1 class="section-title" style="color:var(--text-inverse); font-size:2.8rem; margin-bottom:1rem;">What Hinduism Says About Suicide and the Dignity of Life</h1>
           <div style="display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;">
             <p style="font-family:var(--font-body); font-size:0.85rem; color:rgba(255,240,224,0.7); margin:0;">Hindu Centre Singapore &middot; Published 2024</p>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:#fff; text-transform:uppercase; background:var(--tulsi); padding:0.3rem 0.7rem; border-radius:2px;">Published</span>
+            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:#fff; text-transform:uppercase; background:var(--peacock); padding:0.3rem 0.7rem; border-radius:2px;">Published</span>
           </div>
         </div>
       </div>
@@ -5546,7 +5568,7 @@ body { padding-top: 0; }
           <h1 class="section-title" style="color:var(--text-inverse); font-size:2.8rem; margin-bottom:1rem;">Hinduism and LGBT: A Dharmic Perspective</h1>
           <div style="display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;">
             <p style="font-family:var(--font-body); font-size:0.85rem; color:rgba(255,240,224,0.7); margin:0;">Hindu Centre Singapore &middot; Published 2024</p>
-            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:#fff; text-transform:uppercase; background:var(--tulsi); padding:0.3rem 0.7rem; border-radius:2px;">Published</span>
+            <span style="font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.1em; color:#fff; text-transform:uppercase; background:var(--peacock); padding:0.3rem 0.7rem; border-radius:2px;">Published</span>
           </div>
         </div>
       </div>
@@ -5951,7 +5973,7 @@ body { padding-top: 0; }
         </div>
         <div class="volunteer-card">
           <div style="margin-bottom:1rem;">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--tulsi)" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--peacock)" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
           </div>
           <h4>Bandhu Befriender</h4>
           <p>Training provided. Visit elderly residents weekly. Be the friend someone is waiting for.</p>
@@ -6073,84 +6095,16 @@ body { padding-top: 0; }
     <div style="height:5rem;"></div>
 
     <div class="container fade-in" style="position:relative; z-index:1;">
-      <div style="display:grid; grid-template-columns:1.05fr 1fr; gap:4rem; align-items:start; margin-bottom:3.5rem;">
-        <div>
-          <div class="section-label section-label-light" style="margin-bottom:1rem;">Yuvashakti &middot; The Youth Wing</div>
-          <h2 style="font-family:var(--font-display); font-weight:300; font-size:clamp(2.2rem, 4vw, 3.2rem); color:var(--sandstone); line-height:1.1; margin-bottom:1.5rem;">For the next generation of Hindu Singapore.</h2>
-          <p style="font-size:1.05rem; line-height:1.75; color:rgba(255,248,240,0.85); margin-bottom:1.25rem;">Yuvashakti is Hindu Centre's youth wing &mdash; for Singaporean Hindus aged 18 to 35 who want to <em>learn</em> their tradition properly, <em>practise</em> their devotion among peers, and <em>lead</em> the work of the next decade.</p>
-          <p style="font-size:1rem; line-height:1.7; color:rgba(255,248,240,0.7);">This is not a programme designed <em>for</em> youth. It is a space youth lead, shape, and run &mdash; with the resources of a 48-year-old institution behind them, and the runway of the Golden Jubilee in 2028 ahead.</p>
+      <div style="max-width:760px;">
+        <div class="section-label section-label-light" style="margin-bottom:1rem;">Yuvashakti &middot; The youth circle</div>
+        <div style="display:inline-block; font-family:var(--font-mono); font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--temple-charcoal); background:var(--lamp-gold); padding:0.3rem 0.7rem; border-radius:2px; margin-bottom:1.25rem;">Being revived &middot; 2026&ndash;2028</div>
+        <h2 style="font-family:var(--font-display); font-weight:300; font-size:clamp(2.2rem, 4vw, 3.2rem); color:var(--sandstone); line-height:1.1; margin-bottom:1.5rem;">Yuvashakti is being rebuilt &mdash; and we&rsquo;re looking for the generation to build it.</h2>
+        <p style="font-size:1.05rem; line-height:1.75; color:rgba(255,248,240,0.85); margin-bottom:1.25rem;">Yuvashakti &mdash; the youth circle &mdash; is for Singaporean Hindus aged 18 to 35: a space to learn the tradition properly, practise it among peers, and lead the work of the next decade.</p>
+        <p style="font-size:1rem; line-height:1.7; color:rgba(255,248,240,0.72); margin-bottom:1.25rem;">Right now, it is quiet. We are between chapters &mdash; gathering the people who will shape the next one, with the Golden Jubilee in 2028 as the runway. New leadership is taking shape, and Yuvashakti will be built by the generation it is for, not handed down to them.</p>
+        <p style="font-size:1rem; line-height:1.7; color:rgba(255,248,240,0.72); margin-bottom:2rem;">If that generation is you &mdash; or someone you know &mdash; we&rsquo;d like to know now. Add your name, and you&rsquo;ll be the first we call when Yuvashakti begins again.</p>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:center; padding-top:1.5rem; border-top:1px solid rgba(255,248,240,0.12);">
+          <a href="#" class="btn-bright" style="background:var(--kumkum);">Register your interest &raquo;</a>
         </div>
-        <div style="background:rgba(255,248,240,0.06); border:1px solid rgba(255,248,240,0.12); border-radius:6px; padding:2rem;">
-          <div style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; color:var(--lamp-gold); text-transform:uppercase; margin-bottom:1rem;">Who Yuvashakti Is For</div>
-          <ul style="list-style:none; padding:0; margin:0;">
-            <li style="padding:0.6rem 0; border-bottom:1px solid rgba(255,248,240,0.1); display:flex; gap:0.8rem; align-items:flex-start;">
-              <span style="color:var(--lamp-gold); font-family:var(--font-mono); font-size:0.85rem;">01</span>
-              <span style="font-size:0.92rem; color:rgba(255,248,240,0.85);">You're a Hindu Singaporean aged 18&ndash;35, born here or settled here</span>
-            </li>
-            <li style="padding:0.6rem 0; border-bottom:1px solid rgba(255,248,240,0.1); display:flex; gap:0.8rem; align-items:flex-start;">
-              <span style="color:var(--lamp-gold); font-family:var(--font-mono); font-size:0.85rem;">02</span>
-              <span style="font-size:0.92rem; color:rgba(255,248,240,0.85);">You can explain your name but not your tradition &mdash; and that bothers you</span>
-            </li>
-            <li style="padding:0.6rem 0; border-bottom:1px solid rgba(255,248,240,0.1); display:flex; gap:0.8rem; align-items:flex-start;">
-              <span style="color:var(--lamp-gold); font-family:var(--font-mono); font-size:0.85rem;">03</span>
-              <span style="font-size:0.92rem; color:rgba(255,248,240,0.85);">You're uninterested in being told what to think but curious about what to study</span>
-            </li>
-            <li style="padding:0.6rem 0; display:flex; gap:0.8rem; align-items:flex-start;">
-              <span style="color:var(--lamp-gold); font-family:var(--font-mono); font-size:0.85rem;">04</span>
-              <span style="font-size:0.92rem; color:rgba(255,248,240,0.85);">You want a community of peers asking the same questions you are</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Three Yuvashakti tracks -->
-      <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:1.5rem; margin-bottom:3rem;">
-        <div style="background:rgba(255,248,240,0.06); border:1px solid rgba(255,248,240,0.12); border-top:3px solid var(--lamp-gold); border-radius:6px; padding:0; overflow:hidden;">
-          <img src="Prompt_23.png" alt="Yuva-Jnana — three young Singaporean Hindus in a study circle with Bhagavad Gita, notebooks and chai, saffron wall background, afternoon light" style="width:100%; height:220px; object-fit:cover; object-position:center 30%;">
-          <div style="padding:1.5rem 2rem 2rem;">
-          <div style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; color:var(--lamp-gold); text-transform:uppercase; margin-bottom:0.75rem;">Track 01</div>
-          <h3 style="font-family:var(--font-display); font-weight:400; font-size:1.4rem; color:var(--sandstone); margin-bottom:0.5rem;">Yuva-Jnana &mdash; Study</h3>
-          <p style="font-size:0.88rem; color:rgba(255,248,240,0.7); line-height:1.65; margin-bottom:1rem;">Peer-led study circles on Hindu philosophy, contemporary dharma questions, and the texts your parents never explained. Quarterly. Free.</p>
-          <ul style="list-style:none; padding:0; margin:0; font-size:0.82rem; color:rgba(255,248,240,0.65);">
-            <li style="padding:0.35rem 0; border-bottom:1px solid rgba(255,248,240,0.08);">Bhagavad Gita reading circle</li>
-            <li style="padding:0.35rem 0; border-bottom:1px solid rgba(255,248,240,0.08);">Hinduism &amp; modern ethics seminars</li>
-            <li style="padding:0.35rem 0;">"Ask anything" sessions with senior teachers</li>
-          </ul>
-          </div>
-        </div>
-        <div style="background:rgba(255,248,240,0.06); border:1px solid rgba(255,248,240,0.12); border-top:3px solid var(--kumkum); border-radius:6px; padding:0; overflow:hidden;">
-          <img src="Prompt_21.png" alt="Full Moon Prayers — devotees in a circle around a lit brass oil lamp, eyes softly closed, warm evening light, a younger face visible among the group" style="width:100%; height:220px; object-fit:cover; object-position:center 35%;">
-          <div style="padding:1.5rem 2rem 2rem;">
-          <div style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; color:var(--lamp-gold); text-transform:uppercase; margin-bottom:0.75rem;">Track 02</div>
-          <h3 style="font-family:var(--font-display); font-weight:400; font-size:1.4rem; color:var(--sandstone); margin-bottom:0.5rem;">Yuva-Bhakti &mdash; Practise</h3>
-          <p style="font-size:0.88rem; color:rgba(255,248,240,0.7); line-height:1.65; margin-bottom:1rem;">Youth-led satsangs, festival organising, and devotional practice that doesn't feel inherited &mdash; it feels yours.</p>
-          <ul style="list-style:none; padding:0; margin:0; font-size:0.82rem; color:rgba(255,248,240,0.65);">
-            <li style="padding:0.35rem 0; border-bottom:1px solid rgba(255,248,240,0.08);">Monthly youth bhajan night</li>
-            <li style="padding:0.35rem 0; border-bottom:1px solid rgba(255,248,240,0.08);">Festival lead roles (Navaratri, Shivaratri)</li>
-            <li style="padding:0.35rem 0;">Taranga youth performance ensemble</li>
-          </ul>
-          </div><!-- /padding wrapper -->
-        </div>
-        <div style="background:rgba(255,248,240,0.06); border:1px solid rgba(255,248,240,0.12); border-top:3px solid var(--tulsi); border-radius:6px; padding:0; overflow:hidden;">
-          <img src="Prompt_24.png" alt="Yuva-Sevaa — young woman in Hindu Centre orange t-shirt leading a planning meeting with three others, brass lamp on table, purposeful community hall setting" style="width:100%; height:220px; object-fit:cover; object-position:center 25%;">
-          <div style="padding:1.5rem 2rem 2rem;">
-          <div style="font-family:var(--font-mono); font-size:0.7rem; letter-spacing:0.15em; color:var(--lamp-gold); text-transform:uppercase; margin-bottom:0.75rem;">Track 03</div>
-          <h3 style="font-family:var(--font-display); font-weight:400; font-size:1.4rem; color:var(--sandstone); margin-bottom:0.5rem;">Yuva-Sevaa &mdash; Lead</h3>
-          <p style="font-size:0.88rem; color:rgba(255,248,240,0.7); line-height:1.65; margin-bottom:1rem;">Take a leadership role in Mitra, Bandhu, Chakra, or Balagurukulam &mdash; or build a new programme entirely. Mentorship from the Management Committee.</p>
-          <ul style="list-style:none; padding:0; margin:0; font-size:0.82rem; color:rgba(255,248,240,0.65);">
-            <li style="padding:0.35rem 0; border-bottom:1px solid rgba(255,248,240,0.08);">Programme leadership pathway</li>
-            <li style="padding:0.35rem 0; border-bottom:1px solid rgba(255,248,240,0.08);">Yuvashakti Council (rotating 2-yr terms)</li>
-            <li style="padding:0.35rem 0;">Jubilee 2028 organising committee</li>
-          </ul>
-          </div>
-        </div>
-      </div>
-
-      <!-- CTAs -->
-      <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; align-items:center; padding-top:2rem; border-top:1px solid rgba(255,248,240,0.12);">
-        <a href="#" class="btn-bright" style="background:var(--kumkum);">Join the Yuvashakti Circle &raquo;</a>
-        <a href="#" class="btn-panel-ghost">Lead a Programme</a>
-        <a href="#" style="font-family:var(--font-body); font-size:0.85rem; color:var(--lamp-gold); text-decoration:none; padding:0.85rem 0; letter-spacing:0.05em;">Or get on the founding-cohort waitlist &rarr;</a>
       </div>
     </div>
   </section>
@@ -6260,7 +6214,7 @@ body { padding-top: 0; }
                 <span style="font-family:var(--font-display); font-size:1.1rem;">$48 /year</span>
               </div>
             </div>
-            <a href="#" onclick="showSignup('signup-membership'); return false;" class="btn btn-outline-dark" style="width:100%; justify-content:center;">Join as Member &rarr;</a>
+            <a href="https://sfh.sg/hcmember" target="_blank" rel="noopener" class="btn btn-outline-dark" style="width:100%; justify-content:center;">Join as Member &rarr;</a>
           </div>
 
           <!-- Corporate partnerships -->
@@ -6590,14 +6544,17 @@ body { padding-top: 0; }
         <p>+65 6291 8540 &middot; Mon&ndash;Fri, 12pm to 6pm</p>
         <p>admin@hinducentre.org.sg</p>
         <div class="footer-social">
-          <a href="#" aria-label="YouTube">
+          <a href="https://www.youtube.com/@HinduCentre" target="_blank" rel="noopener" aria-label="YouTube">
             <svg viewBox="0 0 24 24"><path d="M23 6.5a3 3 0 00-2.1-2.1C19.2 4 12 4 12 4s-7.2 0-8.9.4A3 3 0 001 6.5 31.3 31.3 0 00.6 12a31.3 31.3 0 00.4 5.5 3 3 0 002.1 2.1c1.7.4 8.9.4 8.9.4s7.2 0 8.9-.4a3 3 0 002.1-2.1 31.3 31.3 0 00.4-5.5 31.3 31.3 0 00-.4-5.5zM10 15.5V8.5l6 3.5-6 3.5z"/></svg>
           </a>
-          <a href="#" aria-label="Facebook">
+          <a href="https://www.facebook.com/hinducentresg/" target="_blank" rel="noopener" aria-label="Facebook">
             <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
           </a>
-          <a href="#" aria-label="Instagram">
+          <a href="https://www.instagram.com/hinducentresg/" target="_blank" rel="noopener" aria-label="Instagram">
             <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+          </a>
+          <a href="https://whatsapp.com/channel/0029VbB9BXKDjiOTgKBnjq31" target="_blank" rel="noopener" aria-label="WhatsApp Channel">
+            <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.5 15.3L2 22l4.8-1.5A10 10 0 1012 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-2.9.9.9-2.8-.2-.3A8.2 8.2 0 1112 20.2zm4.7-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.3-.6.8-.8 1-.1.2-.3.2-.5.1-.3-.2-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.8-.1-.3 0-.4.1-.5l.4-.5c.1-.1.2-.3.2-.4.1-.2 0-.3 0-.4 0-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.8 2.3.9 2.5c.1.2 1.6 2.5 4 3.5.5.2 1 .4 1.3.5.6.2 1.1.1 1.5.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2 0-.1-.2-.2-.5-.3z"/></svg>
           </a>
         </div>
       </div>
@@ -6612,7 +6569,7 @@ body { padding-top: 0; }
           <li><a href="#" data-page="learn">Balagurukulam (Ages 5&ndash;15)</a></li>
           <li><a href="#" data-page="learn">Asian Centre for Hindu Studies</a></li>
           <li><a href="#" data-page="worship">Bhakti Events &amp; Online Chanting</a></li>
-          <li><a href="#" data-page="get-involved">Yuvashakti (Youth Wing)</a></li>
+          <li><a href="#" data-page="get-involved" data-anchor="yuvashakti">Yuvashakti &mdash; the youth circle</a></li>
         </ul>
       </div>
 
@@ -6631,8 +6588,8 @@ body { padding-top: 0; }
         <h4>Get Involved</h4>
         <ul>
           <li><a href="#" data-page="resources">Resources &amp; Library</a></li>
-          <li><a href="#" onclick="navAndSignup('signup-membership'); return false;">Become a Member</a></li>
-          <li><a href="#" onclick="navAndSignup('signup-facility'); return false;">Book a Facility</a></li>
+          <li><a href="https://sfh.sg/hcmember" target="_blank" rel="noopener">Become a Member</a></li>
+          <li><a href="https://sfh.sg/hcbooking" target="_blank" rel="noopener">Book a Facility</a></li>
           <li><a href="#" data-page="get-involved">Volunteer</a></li>
           <li><a href="#" data-page="get-involved">Donate</a></li>
         </ul>
@@ -6650,7 +6607,7 @@ body { padding-top: 0; }
 
     <div class="footer-bottom">
       <p>Hindu Centre (Singapore) &mdash; Serving since 1978 &middot; Golden Jubilee 2028</p>
-      <p>Institution of a Public Character (IPC) &middot; UEN: T78SS0017J</p>
+      <p>Institution of a Public Character (IPC) &middot; UEN: S78SS0017J</p>
     </div>
   </div>
 </footer>
