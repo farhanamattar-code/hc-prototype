@@ -659,8 +659,7 @@ body {
 .hero svg g[style*="lotusBloom"],
 .hero svg g[style*="lotusSway"],
 .hero svg g[style*="leafAppear"],
-.hero svg g[style*="leafSway"],
-.hero svg g[style*="diyaSway"] {
+.hero svg g[style*="leafSway"] {
   transform-box: fill-box;
   transform-origin: center;
 }
@@ -742,16 +741,14 @@ body {
   80%, 100% { transform: translate(0, 0); opacity: 0.3; }
 }
 
-/* Diya sway — gentle bob + tilt so the flame row feels alive rather than
-   pinned in place, same nested-<g> pattern as the Sevaa tree leaves:
-   the OUTER <g transform="translate(x,y)"> stays a plain, unanimated
-   position anchor; this transform animation lives on an INNER <g> only.
-   (Never put a transform animation on the outer group itself — see the
-   flicker comment above; CSS transform replaces the SVG transform
-   attribute and collapses the diya to the origin.) */
-@keyframes diyaSway {
-  0%, 100% { transform: translateY(0) rotate(calc(var(--sway-rot, 1deg) * -1)); }
-  50% { transform: translateY(var(--sway-y, -3px)) rotate(var(--sway-rot, 1deg)); }
+/* Lotus flowers (Jnana slide) fly in/out the same way the Sevaa tree
+   leaves do (reuses @keyframes leafFlyIn directly — same style of motion).
+   Unlike the leaf/diya groups, lotus petals are drawn with ABSOLUTE canvas
+   coordinates (not anchored at local 0,0), so rotate/scale need an explicit
+   fill-box/center pivot or they'd swing around the SVG's top-left corner. */
+.lotus-fly {
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 /* ============================================================
@@ -2780,43 +2777,53 @@ body { padding-top: 0; }
               </radialGradient>
             </defs>
             <rect width="1440" height="900" fill="url(#jnanaGlow)"/>
-            <!-- Lotus 1 — centre bottom (white petals, pink tips) -->
-            <g style="animation: lotusBloom 4s ease-in-out infinite;" opacity="0.75">
-              <ellipse cx="720" cy="690" rx="16" ry="5" fill="#FFF0E0" opacity="0.15"/>
-              <path d="M720,688 Q712,674 720,660 Q728,674 720,688Z" fill="#FFF0E0" opacity="0.5" stroke="#E8A0B0" stroke-width="0.8"/>
-              <path d="M720,688 Q706,678 704,665 Q714,674 720,688Z" fill="#FFF0E0" opacity="0.35" stroke="#E8A0B0" stroke-width="0.6"/>
-              <path d="M720,688 Q734,678 736,665 Q726,674 720,688Z" fill="#FFF0E0" opacity="0.35" stroke="#E8A0B0" stroke-width="0.6"/>
-              <circle cx="720" cy="682" r="3" fill="#F5B800" opacity="0.4"/>
+            <!-- Lotus 1 — resized, recoloured-visibility, drifts like the Sevaa leaves -->
+            <g style="animation: lotusBloom 4s ease-in-out infinite;" opacity="0.92">
+              <g class="lotus-fly" style="animation: leafFlyIn 13.5s ease-in-out 0.0s infinite;--lx-start:95px;--ly-start:-28.5px;--lr-start:14deg;--lr-land:-2.8deg;--lr-exit:-12.6deg;--lx-exit:-17px;--ly-exit:-34px;--leaf-opacity:0.75;">
+                <ellipse cx="720" cy="693.2" rx="41.6" ry="13" fill="#FFF0E0" opacity="0.22"/>
+                <path d="M720,688Q699.2,651.6 720,615.2Q740.8,651.6 720,688Z" fill="#FFF0E0" opacity="0.75" stroke="#E8A0B0" stroke-width="1.25"/>
+                <path d="M720,688Q683.6,662 678.4,628.2Q704.4,651.6 720,688Z" fill="#FFF0E0" opacity="0.55" stroke="#E8A0B0" stroke-width="0.94"/>
+                <path d="M720,688Q756.4,662 761.6,628.2Q735.6,651.6 720,688Z" fill="#FFF0E0" opacity="0.55" stroke="#E8A0B0" stroke-width="0.94"/>
+                <circle cx="720" cy="672.4" r="7.8" fill="#F5B800" opacity="0.6"/>
+              </g>
             </g>
-            <!-- Lotus 2 — left -->
-            <g style="animation: lotusBloom 4.5s ease-in-out infinite; animation-delay: 0.6s;" opacity="0.7">
-              <ellipse cx="350" cy="720" rx="14" ry="4" fill="#FFF0E0" opacity="0.12"/>
-              <path d="M350,718 Q343,706 350,692 Q357,706 350,718Z" fill="#FFF0E0" opacity="0.45" stroke="#E8A0B0" stroke-width="0.7"/>
-              <path d="M350,718 Q338,710 336,698 Q344,707 350,718Z" fill="#FFF0E0" opacity="0.3" stroke="#E8A0B0" stroke-width="0.5"/>
-              <path d="M350,718 Q362,710 364,698 Q356,707 350,718Z" fill="#FFF0E0" opacity="0.3" stroke="#E8A0B0" stroke-width="0.5"/>
-              <circle cx="350" cy="712" r="2.5" fill="#F5B800" opacity="0.35"/>
+            <!-- Lotus 2 — resized, recoloured-visibility, drifts like the Sevaa leaves -->
+            <g style="animation: lotusBloom 4.5s ease-in-out infinite; animation-delay: 0.6s;" opacity="0.88">
+              <g class="lotus-fly" style="animation: leafFlyIn 12.0s ease-in-out 1.4s infinite;--lx-start:-80px;--ly-start:24px;--lr-start:-13deg;--lr-land:2.6deg;--lr-exit:11.7deg;--lx-exit:15px;--ly-exit:-30px;--leaf-opacity:0.68;">
+                <ellipse cx="350" cy="722.6" rx="32.2" ry="9.2" fill="#FFF0E0" opacity="0.2"/>
+                <path d="M350,718Q333.9,690.4 350,658.2Q366.1,690.4 350,718Z" fill="#FFF0E0" opacity="0.68" stroke="#E8A0B0" stroke-width="1.02"/>
+                <path d="M350,718Q322.4,699.6 317.8,672Q336.2,692.7 350,718Z" fill="#FFF0E0" opacity="0.48" stroke="#E8A0B0" stroke-width="0.73"/>
+                <path d="M350,718Q377.6,699.6 382.2,672Q363.8,692.7 350,718Z" fill="#FFF0E0" opacity="0.48" stroke="#E8A0B0" stroke-width="0.73"/>
+                <circle cx="350" cy="704.2" r="5.75" fill="#F5B800" opacity="0.55"/>
+              </g>
             </g>
-            <!-- Lotus 3 — right -->
-            <g style="animation: lotusBloom 5s ease-in-out infinite; animation-delay: 1.2s;" opacity="0.65">
-              <ellipse cx="1090" cy="700" rx="12" ry="4" fill="#FFF0E0" opacity="0.1"/>
-              <path d="M1090,698 Q1084,688 1090,676 Q1096,688 1090,698Z" fill="#FFF0E0" opacity="0.4" stroke="#E8A0B0" stroke-width="0.7"/>
-              <path d="M1090,698 Q1080,691 1079,680 Q1086,689 1090,698Z" fill="#FFF0E0" opacity="0.28" stroke="#E8A0B0" stroke-width="0.5"/>
-              <path d="M1090,698 Q1100,691 1101,680 Q1094,689 1090,698Z" fill="#FFF0E0" opacity="0.28" stroke="#E8A0B0" stroke-width="0.5"/>
-              <circle cx="1090" cy="692" r="2" fill="#F5B800" opacity="0.3"/>
+            <!-- Lotus 3 — resized, recoloured-visibility, drifts like the Sevaa leaves -->
+            <g style="animation: lotusBloom 5s ease-in-out infinite; animation-delay: 1.2s;" opacity="0.82">
+              <g class="lotus-fly" style="animation: leafFlyIn 14.5s ease-in-out 2.6s infinite;--lx-start:78px;--ly-start:-23.4px;--lr-start:13deg;--lr-land:-2.6deg;--lr-exit:-11.7deg;--lx-exit:-14px;--ly-exit:-28px;--leaf-opacity:0.62;">
+                <ellipse cx="1090" cy="702.6" rx="27.6" ry="9.2" fill="#FFF0E0" opacity="0.18"/>
+                <path d="M1090,698Q1076.2,675 1090,647.4Q1103.8,675 1090,698Z" fill="#FFF0E0" opacity="0.62" stroke="#E8A0B0" stroke-width="1.02"/>
+                <path d="M1090,698Q1067,681.9 1064.7,656.6Q1080.8,677.3 1090,698Z" fill="#FFF0E0" opacity="0.44" stroke="#E8A0B0" stroke-width="0.73"/>
+                <path d="M1090,698Q1113,681.9 1115.3,656.6Q1099.2,677.3 1090,698Z" fill="#FFF0E0" opacity="0.44" stroke="#E8A0B0" stroke-width="0.73"/>
+                <circle cx="1090" cy="684.2" r="4.6" fill="#F5B800" opacity="0.5"/>
+              </g>
             </g>
-            <!-- Lotus 4 — far left -->
-            <g style="animation: lotusBloom 3.8s ease-in-out infinite; animation-delay: 1.8s;" opacity="0.6">
-              <ellipse cx="200" cy="750" rx="10" ry="3" fill="#FFF0E0" opacity="0.1"/>
-              <path d="M200,748 Q195,740 200,730 Q205,740 200,748Z" fill="#FFF0E0" opacity="0.35" stroke="#E8A0B0" stroke-width="0.6"/>
-              <path d="M200,748 Q192,742 191,733 Q196,740 200,748Z" fill="#FFF0E0" opacity="0.25" stroke="#E8A0B0" stroke-width="0.5"/>
-              <path d="M200,748 Q208,742 209,733 Q204,740 200,748Z" fill="#FFF0E0" opacity="0.25" stroke="#E8A0B0" stroke-width="0.5"/>
+            <!-- Lotus 4 — resized, recoloured-visibility, drifts like the Sevaa leaves -->
+            <g style="animation: lotusBloom 3.8s ease-in-out infinite; animation-delay: 1.8s;" opacity="0.78">
+              <g class="lotus-fly" style="animation: leafFlyIn 11.5s ease-in-out 3.8s infinite;--lx-start:-65px;--ly-start:19.5px;--lr-start:-11deg;--lr-land:2.2deg;--lr-exit:9.9deg;--lx-exit:12px;--ly-exit:-24px;--leaf-opacity:0.55;">
+                <ellipse cx="200" cy="752.2" rx="21" ry="6.3" fill="#FFF0E0" opacity="0.16"/>
+                <path d="M200,748Q189.5,731.2 200,710.2Q210.5,731.2 200,748Z" fill="#FFF0E0" opacity="0.55" stroke="#E8A0B0" stroke-width="0.83"/>
+                <path d="M200,748Q183.2,735.4 181.1,716.5Q191.6,731.2 200,748Z" fill="#FFF0E0" opacity="0.4" stroke="#E8A0B0" stroke-width="0.69"/>
+                <path d="M200,748Q216.8,735.4 218.9,716.5Q208.4,731.2 200,748Z" fill="#FFF0E0" opacity="0.4" stroke="#E8A0B0" stroke-width="0.69"/>
+              </g>
             </g>
-            <!-- Lotus 5 — far right -->
-            <g style="animation: lotusBloom 4.2s ease-in-out infinite; animation-delay: 0.9s;" opacity="0.6">
-              <ellipse cx="1250" cy="730" rx="10" ry="3" fill="#FFF0E0" opacity="0.1"/>
-              <path d="M1250,728 Q1245,720 1250,710 Q1255,720 1250,728Z" fill="#FFF0E0" opacity="0.35" stroke="#E8A0B0" stroke-width="0.6"/>
-              <path d="M1250,728 Q1242,722 1241,713 Q1246,720 1250,728Z" fill="#FFF0E0" opacity="0.25" stroke="#E8A0B0" stroke-width="0.5"/>
-              <path d="M1250,728 Q1258,722 1259,713 Q1254,720 1250,728Z" fill="#FFF0E0" opacity="0.25" stroke="#E8A0B0" stroke-width="0.5"/>
+            <!-- Lotus 5 — resized, recoloured-visibility, drifts like the Sevaa leaves -->
+            <g style="animation: lotusBloom 4.2s ease-in-out infinite; animation-delay: 0.9s;" opacity="0.78">
+              <g class="lotus-fly" style="animation: leafFlyIn 15.5s ease-in-out 0.8s infinite;--lx-start:65px;--ly-start:-19.5px;--lr-start:11deg;--lr-land:-2.2deg;--lr-exit:-9.9deg;--lx-exit:-12px;--ly-exit:-24px;--leaf-opacity:0.55;">
+                <ellipse cx="1250" cy="732.2" rx="21" ry="6.3" fill="#FFF0E0" opacity="0.16"/>
+                <path d="M1250,728Q1239.5,711.2 1250,690.2Q1260.5,711.2 1250,728Z" fill="#FFF0E0" opacity="0.55" stroke="#E8A0B0" stroke-width="0.83"/>
+                <path d="M1250,728Q1233.2,715.4 1231.1,696.5Q1241.6,711.2 1250,728Z" fill="#FFF0E0" opacity="0.4" stroke="#E8A0B0" stroke-width="0.69"/>
+                <path d="M1250,728Q1266.8,715.4 1268.9,696.5Q1258.4,711.2 1250,728Z" fill="#FFF0E0" opacity="0.4" stroke="#E8A0B0" stroke-width="0.69"/>
+              </g>
             </g>
             <!-- Gold particles -->
             <circle cx="300" cy="300" r="1.5" fill="#F5B800" opacity="0.15" style="animation: floatUp 15s linear infinite; animation-delay:-2s;"/>
@@ -2884,7 +2891,7 @@ body { padding-top: 0; }
 
             <!-- Diya 1 — far left, x=120, prominent so left edge is populated -->
             <g transform="translate(120,730)" style="animation: flicker 3.1s ease-in-out infinite;">
-              <g style="animation: diyaSway 7.6s ease-in-out infinite; animation-delay: 0s; --sway-y:-4px; --sway-rot:1deg;">
+              <g style="animation: leafFlyIn 12.8s ease-in-out 2.7s infinite;--lx-start:-60px;--ly-start:16.8px;--lr-start:-14deg;--lr-land:3.1deg;--lr-exit:11.9deg;--lx-exit:13.2px;--ly-exit:-24px;--leaf-opacity:0.88;">
                 <!-- halo -->
                 <ellipse cx="0" cy="-26" rx="13" ry="20" fill="url(#flameHalo3)" opacity="0.7"/>
                 <!-- bowl -->
@@ -2905,7 +2912,7 @@ body { padding-top: 0; }
 
             <!-- Diya 2 — x=300, slightly smaller -->
             <g transform="translate(300,742)" style="animation: flicker 3.7s ease-in-out infinite; animation-delay:0.4s;">
-              <g style="animation: diyaSway 8.1s ease-in-out infinite; animation-delay: 0.6s; --sway-y:-3.5px; --sway-rot:0.9deg;">
+              <g style="animation: leafFlyIn 11.7s ease-in-out 0.9s infinite;--lx-start:-50px;--ly-start:14.0px;--lr-start:-12deg;--lr-land:2.6deg;--lr-exit:10.2deg;--lx-exit:11.0px;--ly-exit:-20px;--leaf-opacity:0.85;">
                 <ellipse cx="0" cy="-23" rx="11" ry="17" fill="url(#flameHalo3)" opacity="0.65"/>
                 <path d="M-15,0 Q-17,9 0,12 Q17,9 15,0 Q6,-7 0,-9 Q-6,-7 -15,0Z" fill="#D6472B" opacity="0.5"/>
                 <path d="M-11,2 Q0,8 11,2" fill="none" stroke="#932626" stroke-width="1" opacity="0.35"/>
@@ -2919,7 +2926,7 @@ body { padding-top: 0; }
 
             <!-- Diya 3 — x=490, mid-left -->
             <g transform="translate(490,725)" style="animation: flicker 2.9s ease-in-out infinite; animation-delay:0.9s;">
-              <g style="animation: diyaSway 6.9s ease-in-out infinite; animation-delay: 1.1s; --sway-y:-4px; --sway-rot:1deg;">
+              <g style="animation: leafFlyIn 13.4s ease-in-out 3.6s infinite;--lx-start:-60px;--ly-start:-16.8px;--lr-start:-14deg;--lr-land:3.1deg;--lr-exit:11.9deg;--lx-exit:13.2px;--ly-exit:-24px;--leaf-opacity:0.88;">
                 <ellipse cx="0" cy="-25" rx="13" ry="19" fill="url(#flameHalo2)" opacity="0.7"/>
                 <path d="M-16,0 Q-18,9 0,13 Q18,9 16,0 Q7,-8 0,-10 Q-7,-8 -16,0Z" fill="#DA4C26" opacity="0.52"/>
                 <path d="M-12,2 Q0,9 12,2" fill="none" stroke="#932626" stroke-width="1.1" opacity="0.38"/>
@@ -2933,7 +2940,7 @@ body { padding-top: 0; }
 
             <!-- Diya 4 — x=660, larger foreground diya -->
             <g transform="translate(660,715)" style="animation: flicker 3.4s ease-in-out infinite; animation-delay:0.2s;">
-              <g style="animation: diyaSway 7.9s ease-in-out infinite; animation-delay: 0.3s; --sway-y:-4.5px; --sway-rot:1.1deg;">
+              <g style="animation: leafFlyIn 12.6s ease-in-out 0.9s infinite;--lx-start:-75px;--ly-start:21.0px;--lr-start:-16deg;--lr-land:3.5deg;--lr-exit:13.6deg;--lx-exit:15.4px;--ly-exit:-28px;--leaf-opacity:0.9;">
                 <ellipse cx="0" cy="-32" rx="15" ry="23" fill="url(#flameHalo1)" opacity="0.75"/>
                 <path d="M-21,0 Q-23,12 0,16 Q23,12 21,0 Q9,-10 0,-13 Q-9,-10 -21,0Z" fill="#DE5124" opacity="0.58"/>
                 <path d="M-16,3 Q0,11 16,3" fill="none" stroke="#932626" stroke-width="1.3" opacity="0.42"/>
@@ -2947,7 +2954,7 @@ body { padding-top: 0; }
 
             <!-- Diya 5 — x=720 centre, hero diya — largest -->
             <g transform="translate(720,700)" style="animation: flicker 3s ease-in-out infinite; animation-delay:0s;">
-              <g style="animation: diyaSway 8.6s ease-in-out infinite; animation-delay: 0s; --sway-y:-5px; --sway-rot:1.2deg;">
+              <g style="animation: leafFlyIn 13.0s ease-in-out 0.0s infinite;--lx-start:90px;--ly-start:-25.2px;--lr-start:18deg;--lr-land:-4.0deg;--lr-exit:-15.3deg;--lx-exit:-17.6px;--ly-exit:-32px;--leaf-opacity:0.95;">
                 <ellipse cx="0" cy="-38" rx="18" ry="28" fill="url(#flameHalo1)" opacity="0.8"/>
                 <path d="M-24,0 Q-26,14 0,18 Q26,14 24,0 Q10,-12 0,-15 Q-10,-12 -24,0Z" fill="#DF5622" opacity="0.62"/>
                 <path d="M-18,3 Q0,13 18,3" fill="none" stroke="#932626" stroke-width="1.5" opacity="0.45"/>
@@ -2961,7 +2968,7 @@ body { padding-top: 0; }
 
             <!-- Diya 6 — x=780, mirror of 660 -->
             <g transform="translate(780,715)" style="animation: flicker 3.6s ease-in-out infinite; animation-delay:0.6s;">
-              <g style="animation: diyaSway 7.9s ease-in-out infinite; animation-delay: 0.9s; --sway-y:-4.5px; --sway-rot:1.1deg;">
+              <g style="animation: leafFlyIn 13.2s ease-in-out 1.8s infinite;--lx-start:75px;--ly-start:-21.0px;--lr-start:16deg;--lr-land:-3.5deg;--lr-exit:-13.6deg;--lx-exit:-15.4px;--ly-exit:-28px;--leaf-opacity:0.9;">
                 <ellipse cx="0" cy="-32" rx="15" ry="23" fill="url(#flameHalo1)" opacity="0.72"/>
                 <path d="M-21,0 Q-23,12 0,16 Q23,12 21,0 Q9,-10 0,-13 Q-9,-10 -21,0Z" fill="#DE5124" opacity="0.56"/>
                 <path d="M-16,3 Q0,11 16,3" fill="none" stroke="#932626" stroke-width="1.3" opacity="0.4"/>
@@ -2975,7 +2982,7 @@ body { padding-top: 0; }
 
             <!-- Diya 7 — x=950, mid-right -->
             <g transform="translate(950,728)" style="animation: flicker 4.1s ease-in-out infinite; animation-delay:1.1s;">
-              <g style="animation: diyaSway 7.2s ease-in-out infinite; animation-delay: 1.4s; --sway-y:-4px; --sway-rot:1deg;">
+              <g style="animation: leafFlyIn 11.0s ease-in-out 4.5s infinite;--lx-start:60px;--ly-start:16.8px;--lr-start:14deg;--lr-land:-3.1deg;--lr-exit:-11.9deg;--lx-exit:-13.2px;--ly-exit:-24px;--leaf-opacity:0.88;">
                 <ellipse cx="0" cy="-25" rx="13" ry="19" fill="url(#flameHalo2)" opacity="0.68"/>
                 <path d="M-16,0 Q-18,9 0,13 Q18,9 16,0 Q7,-8 0,-10 Q-7,-8 -16,0Z" fill="#D6472B" opacity="0.5"/>
                 <path d="M-12,2 Q0,9 12,2" fill="none" stroke="#932626" stroke-width="1.1" opacity="0.36"/>
@@ -2989,7 +2996,7 @@ body { padding-top: 0; }
 
             <!-- Diya 8 — x=1130 -->
             <g transform="translate(1130,738)" style="animation: flicker 3.3s ease-in-out infinite; animation-delay:1.6s;">
-              <g style="animation: diyaSway 8.0s ease-in-out infinite; animation-delay: 1.9s; --sway-y:-3.5px; --sway-rot:0.9deg;">
+              <g style="animation: leafFlyIn 12.3s ease-in-out 1.8s infinite;--lx-start:50px;--ly-start:-14.0px;--lr-start:12deg;--lr-land:-2.6deg;--lr-exit:-10.2deg;--lx-exit:-11.0px;--ly-exit:-20px;--leaf-opacity:0.85;">
                 <ellipse cx="0" cy="-23" rx="11" ry="17" fill="url(#flameHalo3)" opacity="0.65"/>
                 <path d="M-15,0 Q-17,9 0,12 Q17,9 15,0 Q6,-7 0,-9 Q-6,-7 -15,0Z" fill="#D6472B" opacity="0.5"/>
                 <path d="M-11,2 Q0,8 11,2" fill="none" stroke="#932626" stroke-width="1" opacity="0.34"/>
@@ -3003,7 +3010,7 @@ body { padding-top: 0; }
 
             <!-- Diya 9 — x=1310, far right, visible -->
             <g transform="translate(1310,732)" style="animation: flicker 3.9s ease-in-out infinite; animation-delay:0.7s;">
-              <g style="animation: diyaSway 6.8s ease-in-out infinite; animation-delay: 1.0s; --sway-y:-4px; --sway-rot:1deg;">
+              <g style="animation: leafFlyIn 11.6s ease-in-out 0.0s infinite;--lx-start:60px;--ly-start:-16.8px;--lr-start:14deg;--lr-land:-3.1deg;--lr-exit:-11.9deg;--lx-exit:-13.2px;--ly-exit:-24px;--leaf-opacity:0.88;">
                 <ellipse cx="0" cy="-25" rx="13" ry="19" fill="url(#flameHalo3)" opacity="0.66"/>
                 <path d="M-16,0 Q-18,9 0,13 Q18,9 16,0 Q7,-8 0,-10 Q-7,-8 -16,0Z" fill="#DA4C26" opacity="0.52"/>
                 <path d="M-12,2 Q0,9 12,2" fill="none" stroke="#932626" stroke-width="1.1" opacity="0.36"/>
@@ -3018,7 +3025,7 @@ body { padding-top: 0; }
             <!-- Second row — smaller background diyas, staggered y -->
             <!-- bg diya A — x=215, y=770 -->
             <g transform="translate(215,770)" style="animation: flicker 4.5s ease-in-out infinite; animation-delay:2s;">
-              <g style="animation: diyaSway 9.0s ease-in-out infinite; animation-delay: 0.4s; --sway-y:-2.5px; --sway-rot:0.7deg;">
+              <g style="animation: leafFlyIn 12.4s ease-in-out 2.7s infinite;--lx-start:-35px;--ly-start:9.8px;--lr-start:-10deg;--lr-land:2.2deg;--lr-exit:8.5deg;--lx-exit:8.2px;--ly-exit:-15px;--leaf-opacity:0.8;">
                 <ellipse cx="0" cy="-18" rx="8" ry="13" fill="url(#flameHalo3)" opacity="0.55"/>
                 <path d="M-11,0 Q-12,7 0,9 Q12,7 11,0 Q5,-6 0,-7 Q-5,-6 -11,0Z" fill="#D6472B" opacity="0.45"/>
                 <ellipse cx="0" cy="1.5" rx="6" ry="2.8" fill="#5B1A1A" opacity="0.38"/>
@@ -3029,7 +3036,7 @@ body { padding-top: 0; }
             </g>
             <!-- bg diya B — x=425, y=765 -->
             <g transform="translate(425,765)" style="animation: flicker 3.8s ease-in-out infinite; animation-delay:1.3s;">
-              <g style="animation: diyaSway 8.4s ease-in-out infinite; animation-delay: 1.6s; --sway-y:-2.5px; --sway-rot:0.7deg;">
+              <g style="animation: leafFlyIn 10.0s ease-in-out 3.6s infinite;--lx-start:-35px;--ly-start:-9.8px;--lr-start:-10deg;--lr-land:2.2deg;--lr-exit:8.5deg;--lx-exit:8.2px;--ly-exit:-15px;--leaf-opacity:0.8;">
                 <ellipse cx="0" cy="-18" rx="8" ry="13" fill="url(#flameHalo3)" opacity="0.5"/>
                 <path d="M-11,0 Q-12,7 0,9 Q12,7 11,0 Q5,-6 0,-7 Q-5,-6 -11,0Z" fill="#D6472B" opacity="0.43"/>
                 <ellipse cx="0" cy="1.5" rx="6" ry="2.8" fill="#5B1A1A" opacity="0.36"/>
@@ -3040,7 +3047,7 @@ body { padding-top: 0; }
             </g>
             <!-- bg diya C — x=570, y=772 -->
             <g transform="translate(570,772)" style="animation: flicker 4.2s ease-in-out infinite; animation-delay:2.5s;">
-              <g style="animation: diyaSway 9.4s ease-in-out infinite; animation-delay: 2.1s; --sway-y:-2.5px; --sway-rot:0.7deg;">
+              <g style="animation: leafFlyIn 10.6s ease-in-out 4.5s infinite;--lx-start:-35px;--ly-start:9.8px;--lr-start:-10deg;--lr-land:2.2deg;--lr-exit:8.5deg;--lx-exit:8.2px;--ly-exit:-15px;--leaf-opacity:0.8;">
                 <ellipse cx="0" cy="-18" rx="8" ry="13" fill="url(#flameHalo3)" opacity="0.52"/>
                 <path d="M-11,0 Q-12,7 0,9 Q12,7 11,0 Q5,-6 0,-7 Q-5,-6 -11,0Z" fill="#D6472B" opacity="0.44"/>
                 <ellipse cx="0" cy="1.5" rx="6" ry="2.8" fill="#5B1A1A" opacity="0.37"/>
@@ -3051,7 +3058,7 @@ body { padding-top: 0; }
             </g>
             <!-- bg diya D — x=870, y=768 -->
             <g transform="translate(870,768)" style="animation: flicker 3.6s ease-in-out infinite; animation-delay:0.3s;">
-              <g style="animation: diyaSway 8.1s ease-in-out infinite; animation-delay: 0.7s; --sway-y:-2.5px; --sway-rot:0.7deg;">
+              <g style="animation: leafFlyIn 11.2s ease-in-out 0.0s infinite;--lx-start:35px;--ly-start:-9.8px;--lr-start:10deg;--lr-land:-2.2deg;--lr-exit:-8.5deg;--lx-exit:-8.2px;--ly-exit:-15px;--leaf-opacity:0.8;">
                 <ellipse cx="0" cy="-18" rx="8" ry="13" fill="url(#flameHalo3)" opacity="0.5"/>
                 <path d="M-11,0 Q-12,7 0,9 Q12,7 11,0 Q5,-6 0,-7 Q-5,-6 -11,0Z" fill="#D6472B" opacity="0.43"/>
                 <ellipse cx="0" cy="1.5" rx="6" ry="2.8" fill="#5B1A1A" opacity="0.36"/>
@@ -3062,7 +3069,7 @@ body { padding-top: 0; }
             </g>
             <!-- bg diya E — x=1040, y=762 -->
             <g transform="translate(1040,762)" style="animation: flicker 4.4s ease-in-out infinite; animation-delay:1.8s;">
-              <g style="animation: diyaSway 9.6s ease-in-out infinite; animation-delay: 1.9s; --sway-y:-2.5px; --sway-rot:0.7deg;">
+              <g style="animation: leafFlyIn 11.8s ease-in-out 0.9s infinite;--lx-start:35px;--ly-start:9.8px;--lr-start:10deg;--lr-land:-2.2deg;--lr-exit:-8.5deg;--lx-exit:-8.2px;--ly-exit:-15px;--leaf-opacity:0.8;">
                 <ellipse cx="0" cy="-18" rx="8" ry="13" fill="url(#flameHalo3)" opacity="0.53"/>
                 <path d="M-11,0 Q-12,7 0,9 Q12,7 11,0 Q5,-6 0,-7 Q-5,-6 -11,0Z" fill="#D6472B" opacity="0.45"/>
                 <ellipse cx="0" cy="1.5" rx="6" ry="2.8" fill="#5B1A1A" opacity="0.38"/>
@@ -3073,7 +3080,7 @@ body { padding-top: 0; }
             </g>
             <!-- bg diya F — x=1220, y=758 -->
             <g transform="translate(1220,758)" style="animation: flicker 3.5s ease-in-out infinite; animation-delay:2.2s;">
-              <g style="animation: diyaSway 8.7s ease-in-out infinite; animation-delay: 2.5s; --sway-y:-2.5px; --sway-rot:0.7deg;">
+              <g style="animation: leafFlyIn 12.4s ease-in-out 1.8s infinite;--lx-start:35px;--ly-start:-9.8px;--lr-start:10deg;--lr-land:-2.2deg;--lr-exit:-8.5deg;--lx-exit:-8.2px;--ly-exit:-15px;--leaf-opacity:0.8;">
                 <ellipse cx="0" cy="-18" rx="8" ry="13" fill="url(#flameHalo3)" opacity="0.5"/>
                 <path d="M-11,0 Q-12,7 0,9 Q12,7 11,0 Q5,-6 0,-7 Q-5,-6 -11,0Z" fill="#D6472B" opacity="0.43"/>
                 <ellipse cx="0" cy="1.5" rx="6" ry="2.8" fill="#5B1A1A" opacity="0.36"/>
